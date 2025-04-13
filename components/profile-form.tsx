@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import type { User } from "@supabase/supabase-js"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -21,7 +21,7 @@ export default function ProfileForm({ user }: ProfileFormProps) {
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null)
 
   // Fetch profile data on component mount
-  useState(() => {
+  useEffect(() => {
     async function getProfile() {
       try {
         setLoading(true)
@@ -77,11 +77,10 @@ export default function ProfileForm({ user }: ProfileFormProps) {
       <CardContent className="space-y-4">
         {message && (
           <div
-            className={`p-4 rounded-md ${
-              message.type === "success"
-                ? "bg-green-500/10 border border-green-500/50 text-green-700"
-                : "bg-red-500/10 border border-red-500/50 text-red-700"
-            }`}
+            className={`p-4 rounded-md ${message.type === "success"
+              ? "bg-green-500/10 border border-green-500/50 text-green-700"
+              : "bg-red-500/10 border border-red-500/50 text-red-700"
+              }`}
           >
             {message.text}
           </div>
