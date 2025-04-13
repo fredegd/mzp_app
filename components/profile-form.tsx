@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Loader2, Save } from "lucide-react"
 import { supabase } from "@/lib/supabase/client"
 import Link from "next/link"
+import { cn } from "@/lib/utils"
 
 interface ProfileFormProps {
   user: User
@@ -69,52 +70,46 @@ export default function ProfileForm({ user }: ProfileFormProps) {
   }
 
   return (
-    <Card className="bg-[#1c1c1c] border-gray-800 text-white">
+    <Card>
       <CardHeader>
         <CardTitle>Edit Profile</CardTitle>
-        <CardDescription className="text-gray-400">Update your profile information</CardDescription>
+        <CardDescription>Update your profile information</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         {message && (
           <div
-            className={`p-4 rounded-md ${message.type === "success"
-              ? "bg-green-500/10 border border-green-500/50 text-green-700"
-              : "bg-red-500/10 border border-red-500/50 text-red-700"
-              }`}
+            className={cn(
+              "p-4 rounded-md",
+              message.type === "success"
+                ? "bg-green-500/10 border border-green-500/50 text-green-700 dark:text-green-400"
+                : "bg-red-500/10 border border-red-500/50 text-red-700 dark:text-red-400"
+            )}
           >
             {message.text}
           </div>
         )}
 
         <div className="space-y-2">
-          <Label htmlFor="email" className="text-gray-300">
-            Email
-          </Label>
-          <Input id="email" value={user.email} disabled className="bg-[#252525] border-gray-700 text-gray-400" />
-          <p className="text-xs text-gray-500">Your email address cannot be changed</p>
+          <Label htmlFor="email">Email</Label>
+          <Input id="email" value={user.email} disabled />
+          <p className="text-xs text-muted-foreground">Your email address cannot be changed</p>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="fullName" className="text-gray-300">
-            Full Name
-          </Label>
+          <Label htmlFor="fullName">Full Name</Label>
           <Input
             id="fullName"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
-            className="bg-[#252525] border-gray-700 text-white"
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="website" className="text-gray-300">
-            Website
-          </Label>
+          <Label htmlFor="website">Website</Label>
           <Input
             id="website"
             value={website}
             onChange={(e) => setWebsite(e.target.value)}
-            className="bg-[#252525] border-gray-700 text-white"
           />
         </div>
       </CardContent>
@@ -122,7 +117,7 @@ export default function ProfileForm({ user }: ProfileFormProps) {
         <Button variant="outline" asChild>
           <Link href="/">Back to Dashboard</Link>
         </Button>
-        <Button onClick={updateProfile} disabled={loading} className="bg-[#2b725e] hover:bg-[#235e4c] text-white">
+        <Button onClick={updateProfile} disabled={loading} className="bg-primary text-primary-foreground hover:bg-primary/90">
           {loading ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />

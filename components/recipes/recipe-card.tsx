@@ -10,7 +10,7 @@ interface RecipeCardProps {
 
 export default function RecipeCard({ recipe }: RecipeCardProps) {
   return (
-    <Card className="h-full flex flex-col bg-[#1c1c1c] border-gray-800 hover:border-gray-700 transition-colors">
+    <Card className="h-full flex flex-col shadow-md hover:border-gray-700 transition-colors">
       <CardHeader className="pb-2">
         <CardTitle className="line-clamp-1">{recipe.name}</CardTitle>
       </CardHeader>

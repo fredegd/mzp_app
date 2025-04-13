@@ -4,7 +4,7 @@ import { useState } from "react"
 import type { User } from "@supabase/supabase-js"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Loader2, Mail, Lock } from "lucide-react"
 import { supabase } from "@/lib/supabase/client"
@@ -50,7 +50,6 @@ export default function SecuritySettings({ user }: SecuritySettingsProps) {
             toast({
                 title: "Success",
                 description: "Please check your new email for a confirmation link.",
-                variant: "default",
             })
 
             setNewEmail("")
@@ -106,7 +105,6 @@ export default function SecuritySettings({ user }: SecuritySettingsProps) {
             toast({
                 title: "Success",
                 description: "Password updated successfully.",
-                variant: "default",
             })
 
             // Clear the form
@@ -126,19 +124,19 @@ export default function SecuritySettings({ user }: SecuritySettingsProps) {
     }
 
     return (
-        <Card className="bg-[#1c1c1c] border-gray-800 text-white">
+        <Card>
             <CardHeader>
                 <CardTitle>Security Settings</CardTitle>
-                <CardDescription className="text-gray-400">Manage your email and password</CardDescription>
+                <CardDescription>Manage your email and password</CardDescription>
             </CardHeader>
             <CardContent>
                 <Tabs defaultValue="email" className="space-y-4">
-                    <TabsList className="bg-[#252525] border-gray-700">
-                        <TabsTrigger value="email" className="data-[state=active]:bg-[#2b725e]">
+                    <TabsList>
+                        <TabsTrigger value="email">
                             <Mail className="h-4 w-4 mr-2" />
                             Change Email
                         </TabsTrigger>
-                        <TabsTrigger value="password" className="data-[state=active]:bg-[#2b725e]">
+                        <TabsTrigger value="password">
                             <Lock className="h-4 w-4 mr-2" />
                             Change Password
                         </TabsTrigger>
@@ -146,33 +144,27 @@ export default function SecuritySettings({ user }: SecuritySettingsProps) {
 
                     <TabsContent value="email" className="space-y-4">
                         <div className="space-y-2">
-                            <Label htmlFor="currentEmail" className="text-gray-300">
-                                Current Email
-                            </Label>
+                            <Label htmlFor="currentEmail">Current Email</Label>
                             <Input
                                 id="currentEmail"
                                 value={user.email}
                                 disabled
-                                className="bg-[#252525] border-gray-700 text-gray-400"
                             />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="newEmail" className="text-gray-300">
-                                New Email
-                            </Label>
+                            <Label htmlFor="newEmail">New Email</Label>
                             <Input
                                 id="newEmail"
                                 type="email"
                                 value={newEmail}
                                 onChange={(e) => setNewEmail(e.target.value)}
-                                className="bg-[#252525] border-gray-700 text-white"
                                 placeholder="Enter new email address"
                             />
                         </div>
                         <Button
                             onClick={handleEmailChange}
                             disabled={emailLoading || !newEmail}
-                            className="w-full bg-[#2b725e] hover:bg-[#235e4c] text-white"
+                            className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
                         >
                             {emailLoading ? (
                                 <>
@@ -187,48 +179,39 @@ export default function SecuritySettings({ user }: SecuritySettingsProps) {
 
                     <TabsContent value="password" className="space-y-4">
                         <div className="space-y-2">
-                            <Label htmlFor="currentPassword" className="text-gray-300">
-                                Current Password
-                            </Label>
+                            <Label htmlFor="currentPassword">Current Password</Label>
                             <Input
                                 id="currentPassword"
                                 type="password"
                                 value={currentPassword}
                                 onChange={(e) => setCurrentPassword(e.target.value)}
-                                className="bg-[#252525] border-gray-700 text-white"
                                 placeholder="Enter current password"
                             />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="newPassword" className="text-gray-300">
-                                New Password
-                            </Label>
+                            <Label htmlFor="newPassword">New Password</Label>
                             <Input
                                 id="newPassword"
                                 type="password"
                                 value={newPassword}
                                 onChange={(e) => setNewPassword(e.target.value)}
-                                className="bg-[#252525] border-gray-700 text-white"
                                 placeholder="Enter new password"
                             />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="confirmPassword" className="text-gray-300">
-                                Confirm New Password
-                            </Label>
+                            <Label htmlFor="confirmPassword">Confirm New Password</Label>
                             <Input
                                 id="confirmPassword"
                                 type="password"
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
-                                className="bg-[#252525] border-gray-700 text-white"
                                 placeholder="Confirm new password"
                             />
                         </div>
                         <Button
                             onClick={handlePasswordChange}
                             disabled={passwordLoading || !currentPassword || !newPassword || !confirmPassword}
-                            className="w-full bg-[#2b725e] hover:bg-[#235e4c] text-white"
+                            className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
                         >
                             {passwordLoading ? (
                                 <>

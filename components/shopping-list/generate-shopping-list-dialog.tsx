@@ -59,7 +59,7 @@ export default function GenerateShoppingListDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-[#1c1c1c] border-gray-800 text-white">
+      <DialogContent className="shadow-md">
         <DialogHeader>
           <DialogTitle>Generate Shopping List</DialogTitle>
           <DialogDescription className="text-gray-400">
@@ -69,11 +69,10 @@ export default function GenerateShoppingListDialog({
 
         {result && (
           <div
-            className={`p-4 rounded-md ${
-              result.success
-                ? "bg-green-500/10 border border-green-500/50 text-green-700"
-                : "bg-red-500/10 border border-red-500/50 text-red-700"
-            }`}
+            className={`p-4 rounded-md ${result.success
+              ? "bg-green-500/10 border border-green-500/50 text-green-700"
+              : "bg-red-500/10 border border-red-500/50 text-red-700"
+              }`}
           >
             {result.message}
           </div>
@@ -87,13 +86,13 @@ export default function GenerateShoppingListDialog({
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
-                    className="w-full justify-start text-left font-normal bg-[#252525] border-gray-700 text-white"
+                    className="w-full justify-start text-left font-normal  border-gray-700 text-white"
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
                     {formatDisplayDate(startDate)}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0 bg-[#252525] border-gray-700">
+                <PopoverContent className="w-auto p-0  border-gray-700">
                   <Calendar
                     mode="single"
                     selected={startDate}
@@ -120,13 +119,13 @@ export default function GenerateShoppingListDialog({
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
-                    className="w-full justify-start text-left font-normal bg-[#252525] border-gray-700 text-white"
+                    className="w-full justify-start text-left font-normal  border-gray-700 text-white"
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
                     {formatDisplayDate(endDate)}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0 bg-[#252525] border-gray-700">
+                <PopoverContent className="w-auto p-0  border-gray-700">
                   <Calendar
                     mode="single"
                     selected={endDate}

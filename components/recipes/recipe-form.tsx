@@ -104,7 +104,7 @@ export default function RecipeForm({ initialRecipe, isEditing = false }: RecipeF
   }
 
   return (
-    <Card className="bg-[#1c1c1c] border-gray-800 text-white">
+    <Card className="shadow-md">
       <CardHeader>
         <CardTitle>{isEditing ? "Edit Recipe" : "Create New Recipe"}</CardTitle>
       </CardHeader>
@@ -120,7 +120,7 @@ export default function RecipeForm({ initialRecipe, isEditing = false }: RecipeF
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="bg-[#252525] border-gray-700 text-white"
+              className=" border-gray-700 text-white"
               placeholder="e.g., Spaghetti Carbonara"
             />
           </div>
@@ -131,7 +131,7 @@ export default function RecipeForm({ initialRecipe, isEditing = false }: RecipeF
               id="description"
               value={description || ""}
               onChange={(e) => setDescription(e.target.value)}
-              className="bg-[#252525] border-gray-700 text-white min-h-[100px]"
+              className=" border-gray-700 text-white min-h-[100px]"
               placeholder="Describe your recipe..."
             />
           </div>
@@ -157,7 +157,7 @@ export default function RecipeForm({ initialRecipe, isEditing = false }: RecipeF
                   <Input
                     value={ingredient.name}
                     onChange={(e) => updateIngredient(index, "name", e.target.value)}
-                    className="bg-[#252525] border-gray-700 text-white"
+                    className=" border-gray-700 text-white"
                     placeholder="e.g., Flour"
                   />
                 </div>
@@ -166,7 +166,7 @@ export default function RecipeForm({ initialRecipe, isEditing = false }: RecipeF
                     type="number"
                     value={ingredient.quantity}
                     onChange={(e) => updateIngredient(index, "quantity", e.target.value)}
-                    className="bg-[#252525] border-gray-700 text-white"
+                    className=" border-gray-700 text-white"
                     placeholder="Qty"
                     min="0"
                     step="0.1"
@@ -176,7 +176,7 @@ export default function RecipeForm({ initialRecipe, isEditing = false }: RecipeF
                   <Input
                     value={ingredient.unit}
                     onChange={(e) => updateIngredient(index, "unit", e.target.value)}
-                    className="bg-[#252525] border-gray-700 text-white"
+                    className=" border-gray-700 text-white"
                     placeholder="e.g., cups"
                   />
                 </div>
@@ -200,7 +200,7 @@ export default function RecipeForm({ initialRecipe, isEditing = false }: RecipeF
               id="instructions"
               value={instructions}
               onChange={(e) => setInstructions(e.target.value)}
-              className="bg-[#252525] border-gray-700 text-white min-h-[200px]"
+              className=" border-gray-700 text-white min-h-[200px]"
               placeholder="Step-by-step instructions..."
             />
           </div>
@@ -213,7 +213,7 @@ export default function RecipeForm({ initialRecipe, isEditing = false }: RecipeF
                 type="number"
                 value={prepTime}
                 onChange={(e) => setPrepTime(e.target.value)}
-                className="bg-[#252525] border-gray-700 text-white"
+                className=" border-gray-700 text-white"
                 placeholder="e.g., 15"
                 min="0"
               />
@@ -225,7 +225,7 @@ export default function RecipeForm({ initialRecipe, isEditing = false }: RecipeF
                 type="number"
                 value={cookTime}
                 onChange={(e) => setCookTime(e.target.value)}
-                className="bg-[#252525] border-gray-700 text-white"
+                className=" border-gray-700 text-white"
                 placeholder="e.g., 30"
                 min="0"
               />
@@ -237,7 +237,7 @@ export default function RecipeForm({ initialRecipe, isEditing = false }: RecipeF
                 type="number"
                 value={servings}
                 onChange={(e) => setServings(e.target.value)}
-                className="bg-[#252525] border-gray-700 text-white"
+                className=" border-gray-700 text-white"
                 placeholder="e.g., 4"
                 min="1"
               />
@@ -250,7 +250,7 @@ export default function RecipeForm({ initialRecipe, isEditing = false }: RecipeF
               id="imageUrl"
               value={imageUrl || ""}
               onChange={(e) => setImageUrl(e.target.value)}
-              className="bg-[#252525] border-gray-700 text-white"
+              className=" border-gray-700 text-white"
               placeholder="https://example.com/image.jpg"
             />
           </div>

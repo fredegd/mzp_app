@@ -18,7 +18,7 @@ export default function ShoppingListPage() {
                 </Link>
             </div>
 
-            <Card className="bg-[#1c1c1c] border-gray-800 text-white mb-6">
+            <Card className="shadow-md mb-6">
                 <CardContent className="p-6">
                     <p className="text-gray-400">
                         Manage your shopping list. Add items manually or generate a list automatically from your meal plan.

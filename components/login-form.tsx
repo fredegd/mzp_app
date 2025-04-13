@@ -65,7 +65,7 @@ export default function LoginForm() {
               type="email"
               placeholder="you@example.com"
               required
-              className="bg-[#1c1c1c] border-gray-800 text-white placeholder:text-gray-500"
+              className="shadow-md placeholder:text-gray-500"
             />
           </div>
           <div className="space-y-2">
@@ -77,7 +77,7 @@ export default function LoginForm() {
               name="password"
               type="password"
               required
-              className="bg-[#1c1c1c] border-gray-800 text-white"
+              className="shadow-md"
             />
           </div>
         </div>

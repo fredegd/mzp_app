@@ -113,7 +113,7 @@ export default function ShoppingList() {
 
   return (
     <div className="space-y-4">
-      <Card className="bg-[#1c1c1c] border-gray-800 text-white">
+      <Card className="shadow-md">
         <CardHeader className="flex flex-row items-center justify-between pb-2">
           <CardTitle>Shopping List</CardTitle>
           <Button
@@ -132,7 +132,7 @@ export default function ShoppingList() {
               value={newItem}
               onChange={(e) => setNewItem(e.target.value)}
               placeholder="Add an item..."
-              className="bg-[#252525] border-gray-700 text-white"
+              className=" border-gray-700 text-white"
             />
             <Button
               type="submit"
@@ -152,7 +152,7 @@ export default function ShoppingList() {
               {sortedItems.map((item) => (
                 <div
                   key={item.id}
-                  className="flex items-center justify-between p-2 rounded-md bg-[#252525] border border-gray-700"
+                  className="flex items-center justify-between p-2 rounded-md  border border-gray-700"
                 >
                   <div className="flex items-center space-x-2">
                     <Checkbox

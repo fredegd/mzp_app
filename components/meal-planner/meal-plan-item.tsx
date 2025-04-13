@@ -56,7 +56,7 @@ export default function MealPlanItem({ mealPlan, onUpdate }: MealPlanItemProps) 
 
   return (
     <>
-      <div className="p-2 rounded-md bg-[#252525] border border-gray-700 text-sm">
+      <div className="p-2 rounded-md  border border-gray-700 text-sm">
         <div className="flex items-center justify-between mb-1">
           <Badge className={`${getMealTypeColor(mealPlan.meal_type)} capitalize`}>{mealPlan.meal_type}</Badge>
           <div className="flex space-x-1">
@@ -80,7 +80,7 @@ export default function MealPlanItem({ mealPlan, onUpdate }: MealPlanItemProps) 
       </div>
 
       <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <DialogContent className="bg-[#1c1c1c] border-gray-800 text-white">
+        <DialogContent className="shadow-md">
           <DialogHeader>
             <DialogTitle>Delete Meal Plan</DialogTitle>
             <DialogDescription className="text-gray-400">

@@ -58,7 +58,7 @@ export default function RecipeDetail({ recipe }: RecipeDetailProps) {
         </div>
       </div>
 
-      <Card className="bg-[#1c1c1c] border-gray-800 text-white">
+      <Card className="shadow-md">
         <CardHeader>
           <CardTitle className="text-2xl">{recipe.name}</CardTitle>
         </CardHeader>
@@ -120,7 +120,7 @@ export default function RecipeDetail({ recipe }: RecipeDetailProps) {
       </Card>
 
       <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <DialogContent className="bg-[#1c1c1c] border-gray-800 text-white">
+        <DialogContent className="shadow-md">
           <DialogHeader>
             <DialogTitle className="flex items-center">
               <AlertCircle className="h-5 w-5 mr-2 text-red-500" />

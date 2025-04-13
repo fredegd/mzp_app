@@ -8,7 +8,7 @@ export default function MealPlannerPage() {
         <div className="container max-w-7xl mx-auto p-4">
             <h1 className="text-3xl font-bold mb-6">Meal Planner</h1>
 
-            <Card className="bg-[#1c1c1c] border-gray-800 text-white mb-6">
+            <Card className="shadow-md mb-6">
                 <CardContent className="p-6">
                     <p className="text-gray-400">
                         Plan your meals for the week by adding recipes to specific days and meal times.

@@ -85,7 +85,7 @@ export default function AddMealPlanDialog({ open, onOpenChange, date, onMealAdde
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-[#1c1c1c] border-gray-800 text-white">
+      <DialogContent className="shadow-md">
         <DialogHeader>
           <DialogTitle>Add Meal Plan for {date.toLocaleDateString()}</DialogTitle>
         </DialogHeader>
@@ -96,10 +96,10 @@ export default function AddMealPlanDialog({ open, onOpenChange, date, onMealAdde
           <div className="space-y-2">
             <Label htmlFor="mealType">Meal Type</Label>
             <Select value={mealType} onValueChange={(value) => setMealType(value as MealType)}>
-              <SelectTrigger className="bg-[#252525] border-gray-700 text-white">
+              <SelectTrigger className=" border-gray-700 text-white">
                 <SelectValue placeholder="Select meal type" />
               </SelectTrigger>
-              <SelectContent className="bg-[#252525] border-gray-700 text-white">
+              <SelectContent className=" border-gray-700 text-white">
                 <SelectItem value="breakfast">Breakfast</SelectItem>
                 <SelectItem value="lunch">Lunch</SelectItem>
                 <SelectItem value="dinner">Dinner</SelectItem>
@@ -111,10 +111,10 @@ export default function AddMealPlanDialog({ open, onOpenChange, date, onMealAdde
           <div className="space-y-2">
             <Label htmlFor="recipe">Recipe (optional)</Label>
             <Select value={recipeId} onValueChange={setRecipeId}>
-              <SelectTrigger className="bg-[#252525] border-gray-700 text-white">
+              <SelectTrigger className=" border-gray-700 text-white">
                 <SelectValue placeholder="Select a recipe" />
               </SelectTrigger>
-              <SelectContent className="bg-[#252525] border-gray-700 text-white max-h-[200px]">
+              <SelectContent className=" border-gray-700 text-white max-h-[200px]">
                 {loading ? (
                   <div className="flex items-center justify-center p-2">
                     <Loader2 className="h-4 w-4 animate-spin mr-2" />
@@ -139,7 +139,7 @@ export default function AddMealPlanDialog({ open, onOpenChange, date, onMealAdde
               id="notes"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className="bg-[#252525] border-gray-700 text-white min-h-[100px]"
+              className=" border-gray-700 text-white min-h-[100px]"
               placeholder="Add any notes about this meal..."
             />
           </div>

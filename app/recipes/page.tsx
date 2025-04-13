@@ -70,7 +70,7 @@ export default function RecipesPage() {
                         placeholder="Search recipes..."
                         value={searchQuery}
                         onChange={e => setSearchQuery(e.target.value)}
-                        className="pl-10 bg-[#252525] border-gray-700 text-white"
+                        className="pl-10  border-gray-700 text-white"
                     />
                 </div>
                 <div className="flex gap-2">
@@ -107,7 +107,7 @@ export default function RecipesPage() {
                     ))}
                 </div>
             ) : (
-                <div className="text-center py-12 bg-[#1c1c1c] border border-gray-800 rounded-md">
+                <div className="text-center py-12  border border-gray-800 rounded-md">
                     {searchQuery ? (
                         <div className="text-gray-400">
                             <p className="mb-2">No recipes found matching &quot;{searchQuery}&quot;</p>

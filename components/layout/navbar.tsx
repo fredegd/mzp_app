@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { LogOut, ChefHat, Calendar, ShoppingCart, User } from "lucide-react"
 import { signOut } from "@/lib/actions"
+import { ThemeToggle } from "./theme-toggle"
+import { cn } from "@/lib/utils"
 
 export default function Navbar() {
   const pathname = usePathname()
@@ -14,17 +16,19 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="border-b border-gray-800 bg-[#161616] py-4">
+    <nav className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-4">
       <div className="container mx-auto flex items-center justify-between px-4">
         <div className="flex items-center space-x-8">
-          <Link href="/dashboard" className="text-xl font-bold text-white">
+          <Link href="/dashboard" className="text-xl font-bold text-foreground">
             MealPlanner
           </Link>
           <div className="hidden md:flex space-x-1">
             <Link href="/dashboard">
               <Button
                 variant={isActive("/dashboard") ? "default" : "ghost"}
-                className={isActive("/dashboard") ? "bg-[#2b725e] text-white" : "text-gray-300"}
+                className={cn(
+                  isActive("/dashboard") && "bg-primary text-primary-foreground"
+                )}
               >
                 Dashboard
               </Button>
@@ -32,7 +36,9 @@ export default function Navbar() {
             <Link href="/recipes">
               <Button
                 variant={isActive("/recipes") ? "default" : "ghost"}
-                className={isActive("/recipes") ? "bg-[#2b725e] text-white" : "text-gray-300"}
+                className={cn(
+                  isActive("/recipes") && "bg-primary text-primary-foreground"
+                )}
               >
                 <ChefHat className="h-4 w-4 mr-2" />
                 Recipes
@@ -41,7 +47,9 @@ export default function Navbar() {
             <Link href="/meal-planner">
               <Button
                 variant={isActive("/meal-planner") ? "default" : "ghost"}
-                className={isActive("/meal-planner") ? "bg-[#2b725e] text-white" : "text-gray-300"}
+                className={cn(
+                  isActive("/meal-planner") && "bg-primary text-primary-foreground"
+                )}
               >
                 <Calendar className="h-4 w-4 mr-2" />
                 Meal Planner
@@ -50,7 +58,9 @@ export default function Navbar() {
             <Link href="/shopping-list">
               <Button
                 variant={isActive("/shopping-list") ? "default" : "ghost"}
-                className={isActive("/shopping-list") ? "bg-[#2b725e] text-white" : "text-gray-300"}
+                className={cn(
+                  isActive("/shopping-list") && "bg-primary text-primary-foreground"
+                )}
               >
                 <ShoppingCart className="h-4 w-4 mr-2" />
                 Shopping List
@@ -59,17 +69,20 @@ export default function Navbar() {
           </div>
         </div>
         <div className="flex items-center space-x-2">
+          <ThemeToggle />
           <Link href="/profile">
             <Button
               variant={isActive("/profile") ? "default" : "ghost"}
-              className={isActive("/profile") ? "bg-[#2b725e] text-white" : "text-gray-300"}
+              className={cn(
+                isActive("/profile") && "bg-primary text-primary-foreground"
+              )}
             >
               <User className="h-4 w-4 mr-2" />
               Profile
             </Button>
           </Link>
           <form action={signOut}>
-            <Button type="submit" variant="ghost" className="text-gray-300">
+            <Button type="submit" variant="ghost">
               <LogOut className="h-4 w-4 mr-2" />
               Sign Out
             </Button>
@@ -83,7 +96,9 @@ export default function Navbar() {
           <Button
             variant="ghost"
             size="sm"
-            className={isActive("/dashboard") ? "bg-[#2b725e] text-white" : "text-gray-300"}
+            className={cn(
+              isActive("/dashboard") && "bg-primary text-primary-foreground"
+            )}
           >
             Dashboard
           </Button>
@@ -92,7 +107,9 @@ export default function Navbar() {
           <Button
             variant="ghost"
             size="sm"
-            className={isActive("/recipes") ? "bg-[#2b725e] text-white" : "text-gray-300"}
+            className={cn(
+              isActive("/recipes") && "bg-primary text-primary-foreground"
+            )}
           >
             <ChefHat className="h-4 w-4" />
           </Button>
@@ -101,7 +118,9 @@ export default function Navbar() {
           <Button
             variant="ghost"
             size="sm"
-            className={isActive("/meal-planner") ? "bg-[#2b725e] text-white" : "text-gray-300"}
+            className={cn(
+              isActive("/meal-planner") && "bg-primary text-primary-foreground"
+            )}
           >
             <Calendar className="h-4 w-4" />
           </Button>
@@ -110,7 +129,9 @@ export default function Navbar() {
           <Button
             variant="ghost"
             size="sm"
-            className={isActive("/shopping-list") ? "bg-[#2b725e] text-white" : "text-gray-300"}
+            className={cn(
+              isActive("/shopping-list") && "bg-primary text-primary-foreground"
+            )}
           >
             <ShoppingCart className="h-4 w-4" />
           </Button>

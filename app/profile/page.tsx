@@ -26,7 +26,7 @@ export default async function ProfilePage() {
                 <ProfileForm user={user} />
                 <SecuritySettings user={user} />
 
-                <Card className="bg-[#1c1c1c] border-gray-800 text-white">
+                <Card className="shadow-md">
                     <CardHeader>
                         <CardTitle>Account Actions</CardTitle>
                         <CardDescription className="text-gray-400">

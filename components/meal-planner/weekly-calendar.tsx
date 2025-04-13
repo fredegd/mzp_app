@@ -122,7 +122,7 @@ export default function WeeklyCalendar() {
           return (
             <Card
               key={date.toISOString()}
-              className={`bg-[#1c1c1c] border-gray-800 ${isToday ? "ring-2 ring-[#2b725e]" : ""}`}
+              className={`shadow-md ${isToday ? "ring-2 ring-[#2b725e]" : ""}`}
             >
               <CardHeader className="pb-2">
                 <CardTitle className="flex items-center justify-between">

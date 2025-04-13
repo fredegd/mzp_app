@@ -48,7 +48,7 @@ export default async function DashboardPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                 {/* Recipes Card */}
-                <Card className="bg-[#1c1c1c] border-gray-800 text-white">
+                <Card className="shadow-md">
                     <CardHeader className="pb-2">
                         <CardTitle className="text-xl flex items-center">
                             <UtensilsCrossed className="h-5 w-5 mr-2 text-[#2b725e]" />
@@ -66,7 +66,7 @@ export default async function DashboardPage() {
                 </Card>
 
                 {/* Meal Plans Card */}
-                <Card className="bg-[#1c1c1c] border-gray-800 text-white">
+                <Card className="shadow-md">
                     <CardHeader className="pb-2">
                         <CardTitle className="text-xl flex items-center">
                             <Calendar className="h-5 w-5 mr-2 text-[#2b725e]" />
@@ -84,7 +84,7 @@ export default async function DashboardPage() {
                 </Card>
 
                 {/* Shopping List Card */}
-                <Card className="bg-[#1c1c1c] border-gray-800 text-white">
+                <Card className="shadow-md">
                     <CardHeader className="pb-2">
                         <CardTitle className="text-xl flex items-center">
                             <ShoppingCart className="h-5 w-5 mr-2 text-[#2b725e]" />
@@ -102,7 +102,7 @@ export default async function DashboardPage() {
                 </Card>
 
                 {/* Profile Card */}
-                <Card className="bg-[#1c1c1c] border-gray-800 text-white">
+                <Card className="shadow-md">
                     <CardHeader className="pb-2">
                         <CardTitle className="text-xl flex items-center">
                             <Clock className="h-5 w-5 mr-2 text-[#2b725e]" />
@@ -134,7 +134,7 @@ export default async function DashboardPage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {recipes && recipes.length > 0 ? (
                         recipes.map((recipe) => (
-                            <Card key={recipe.id} className="bg-[#1c1c1c] border-gray-800 text-white">
+                            <Card key={recipe.id} className="shadow-md">
                                 <CardHeader>
                                     <CardTitle className="line-clamp-1">{recipe.name}</CardTitle>
                                 </CardHeader>
@@ -149,7 +149,7 @@ export default async function DashboardPage() {
                             </Card>
                         ))
                     ) : (
-                        <Card className="col-span-3 bg-[#1c1c1c] border-gray-800 text-white">
+                        <Card className="col-span-3 shadow-md">
                             <CardContent className="p-6 text-center text-gray-400">
                                 <p>No recipes created yet.</p>
                                 <Link href="/recipes/new">
@@ -172,7 +172,7 @@ export default async function DashboardPage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {mealPlans && mealPlans.length > 0 ? (
                         mealPlans.map((meal) => (
-                            <Card key={meal.id} className="bg-[#1c1c1c] border-gray-800 text-white">
+                            <Card key={meal.id} className="shadow-md">
                                 <CardHeader>
                                     <CardTitle className="capitalize">{new Date(meal.date).toLocaleDateString()} - {meal.meal_type}</CardTitle>
                                 </CardHeader>
@@ -188,7 +188,7 @@ export default async function DashboardPage() {
                             </Card>
                         ))
                     ) : (
-                        <Card className="col-span-3 bg-[#1c1c1c] border-gray-800 text-white">
+                        <Card className="col-span-3 shadow-md">
                             <CardContent className="p-6 text-center text-gray-400">
                                 <p>No upcoming meals planned.</p>
                                 <Link href="/meal-planner">
