@@ -53,25 +53,31 @@ export default function RecipeDetail({ recipe }: RecipeDetailProps) {
   return (
     <>
       <div className="mb-6 flex items-center justify-between">
-        <Link href="/recipes">
+        {/* <Link href="/recipes">
           <Button variant="outline" size="sm" className="gap-2">
             <ArrowLeft className="h-4 w-4" />
-            Back to Recipes
+            Back 
           </Button>
-        </Link>
+        </Link> */}
+
+        <Button variant="outline" size="sm" className="gap-2" onClick={() => router.back()}>
+          <ArrowLeft className="h-4 w-4" />
+          <span className="hidden md:block">Back</span>
+        </Button>
 
         <div className="flex gap-2">
           <Button variant="outline" onClick={() => setAddToPlanDialogOpen(true)}>
             <CalendarPlus className="h-4 w-4 mr-2" />
-            Add to Meal Plan
+            <span className="hidden md:block">Add to Meal-Plan</span>
           </Button>
           <Button variant="outline" onClick={() => router.push(`/recipes/${recipe.id}/edit`)}>
             <Edit className="h-4 w-4 mr-2" />
-            Edit
+            <span className="hidden md:block">Edit</span>
           </Button>
           <Button variant="destructive" onClick={() => setDeleteDialogOpen(true)}>
             <Trash2 className="h-4 w-4 mr-2" />
-            Delete
+
+            <span className="hidden md:block">Delete</span>
           </Button>
         </div>
       </div>

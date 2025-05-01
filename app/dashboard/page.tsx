@@ -16,7 +16,7 @@ export default async function DashboardPage() {
         .from("recipes")
         .select("*")
         .order("created_at", { ascending: false })
-        .limit(3)
+    // .limit(3)
 
     // Get upcoming meal plans
     const today = formatDate(new Date())
@@ -133,7 +133,7 @@ export default async function DashboardPage() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {recipes && recipes.length > 0 ? (
-                        recipes.map((recipe) => (
+                        recipes.slice(0, 3).map((recipe) => (
                             <Card key={recipe.id} className="shadow-md">
                                 <CardHeader>
                                     <CardTitle className="line-clamp-1">{recipe.name}</CardTitle>
@@ -177,7 +177,7 @@ export default async function DashboardPage() {
                                     <CardTitle className="capitalize">{new Date(meal.date).toLocaleDateString()} - {meal.meal_type}</CardTitle>
                                 </CardHeader>
                                 <CardContent>
-                                    <p className="text-white font-medium">{meal.recipes?.name || "No recipe selected"}</p>
+                                    <p className="font-medium">{meal.recipes?.name || "No recipe selected"}</p>
                                     {meal.notes && <p className="text-gray-400 text-sm mt-2">{meal.notes}</p>}
                                 </CardContent>
                                 <CardFooter>

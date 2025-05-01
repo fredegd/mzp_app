@@ -78,13 +78,15 @@ export default function Navbar() {
               )}
             >
               <User className="h-4 w-4 mr-2" />
-              Profile
+
+              <span className="hidden md:block">Profile</span>
             </Button>
           </Link>
           <form action={signOut}>
             <Button type="submit" variant="ghost">
               <LogOut className="h-4 w-4 mr-2" />
-              Sign Out
+              <span className="hidden md:block">Sign Out</span>
+
             </Button>
           </form>
         </div>
