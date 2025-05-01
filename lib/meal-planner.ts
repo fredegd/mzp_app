@@ -241,14 +241,21 @@ export async function getShoppingList() {
     const userId = await getUserId();
     if (!userId) throw new Error("User not authenticated");
 
+    // Fetch shopping list items and include the name from the related recipe
     const { data, error } = await supabase
       .from("shopping_list")
-      .select("*")
+      .select(
+        `
+        *,
+        recipe:recipes (name)
+      `
+      )
       .eq("user_id", userId)
       .order("created_at", { ascending: false });
 
     if (error) throw error;
 
+    // The type assertion might need adjustment based on the actual returned structure
     return { items: data as ShoppingListItem[] };
   } catch (error: any) {
     console.error("Error fetching shopping list:", error);
@@ -502,8 +509,11 @@ export async function generateShoppingList(startDate: string, endDate: string) {
       quantity: item.quantity,
       unit: item.unit,
       checked: false,
-      // Optionally store recipe IDs if the schema supports it, e.g., as JSON or text array
-      // recipe_ids: Array.from(item.recipe_ids)
+      // Use the correct column name 'recipe_id'.
+      // Store only the *first* recipe ID if multiple exist for a consolidated item.
+      // If no recipes associated (e.g., manual item if logic changes), store null.
+      recipe_id:
+        item.recipe_ids.size > 0 ? Array.from(item.recipe_ids)[0] : null,
     }));
 
     if (itemsToInsert.length === 0) {
