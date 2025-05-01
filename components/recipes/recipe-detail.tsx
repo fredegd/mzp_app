@@ -2,6 +2,8 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
+import { ArrowLeft, CalendarPlus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Clock, Users, ChevronLeft, Edit, Trash2, AlertCircle } from "lucide-react"
@@ -14,7 +16,10 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import type { Recipe } from "@/types/meal-planner"
+import type { Ingredient } from "@/types/meal-planner"
 import { deleteRecipe } from "@/lib/meal-planner"
+import AddRecipeToMealPlanDialog from './add-recipe-to-meal-plan-dialog'
+import { toast } from "sonner"
 
 interface RecipeDetailProps {
   recipe: Recipe
@@ -23,30 +28,43 @@ interface RecipeDetailProps {
 export default function RecipeDetail({ recipe }: RecipeDetailProps) {
   const router = useRouter()
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+  const [addToPlanDialogOpen, setAddToPlanDialogOpen] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
 
   const handleDelete = async () => {
     setIsDeleting(true)
     try {
       await deleteRecipe(recipe.id)
+      toast.success('Recipe deleted successfully!')
       router.push("/recipes")
     } catch (error) {
       console.error("Error deleting recipe:", error)
+      toast.error("Failed to delete recipe.")
     } finally {
       setIsDeleting(false)
       setDeleteDialogOpen(false)
     }
   }
 
+  const handleMealAdded = () => {
+    toast.success(`'${recipe.name}' added to your meal plan!`)
+  }
+
   return (
     <>
       <div className="mb-6 flex items-center justify-between">
-        <Button variant="ghost" onClick={() => router.back()} className="text-gray-400 hover:text-white">
-          <ChevronLeft className="h-4 w-4 mr-2" />
-          Back
-        </Button>
+        <Link href="/recipes">
+          <Button variant="outline" size="sm" className="gap-2">
+            <ArrowLeft className="h-4 w-4" />
+            Back to Recipes
+          </Button>
+        </Link>
 
         <div className="flex gap-2">
+          <Button variant="outline" onClick={() => setAddToPlanDialogOpen(true)}>
+            <CalendarPlus className="h-4 w-4 mr-2" />
+            Add to Meal Plan
+          </Button>
           <Button variant="outline" onClick={() => router.push(`/recipes/${recipe.id}/edit`)}>
             <Edit className="h-4 w-4 mr-2" />
             Edit
@@ -64,7 +82,7 @@ export default function RecipeDetail({ recipe }: RecipeDetailProps) {
         </CardHeader>
         <CardContent className="space-y-6">
           {recipe.image_url && (
-            <div className="w-full max-h-[300px] overflow-hidden rounded-md">
+            <div className="w-full max-h-[300px] overflow-hidden rounded-md flex items-center justify-center">
               <img
                 src={recipe.image_url || "/placeholder.svg"}
                 alt={recipe.name}
@@ -104,7 +122,7 @@ export default function RecipeDetail({ recipe }: RecipeDetailProps) {
           <div>
             <h3 className="text-lg font-medium mb-2">Ingredients</h3>
             <ul className="list-disc pl-5 space-y-1 text-gray-300">
-              {recipe.ingredients.map((ingredient, index) => (
+              {Array.isArray(recipe.ingredients) && recipe.ingredients.map((ingredient: Ingredient, index: number) => (
                 <li key={index}>
                   {ingredient.quantity} {ingredient.unit} {ingredient.name}
                 </li>
@@ -140,6 +158,14 @@ export default function RecipeDetail({ recipe }: RecipeDetailProps) {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <AddRecipeToMealPlanDialog
+        open={addToPlanDialogOpen}
+        onOpenChange={setAddToPlanDialogOpen}
+        recipeId={recipe.id}
+        recipeName={recipe.name}
+        onMealAdded={handleMealAdded}
+      />
     </>
   )
 }

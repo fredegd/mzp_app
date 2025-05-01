@@ -12,12 +12,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import type { MealPlan } from "@/types/meal-planner"
+import type { MealPlan, Recipe } from "@/types/meal-planner"
 import { deleteMealPlan } from "@/lib/meal-planner"
 import EditMealPlanDialog from "./edit-meal-plan-dialog"
+import Link from "next/link"
 
 interface MealPlanItemProps {
-  mealPlan: MealPlan
+  mealPlan: MealPlan & { recipe: Recipe | null }
   onUpdate: () => void
 }
 
@@ -74,7 +75,13 @@ export default function MealPlanItem({ mealPlan, onUpdate }: MealPlanItemProps) 
           </div>
         </div>
 
-        <div className="font-medium">{mealPlan.recipe ? mealPlan.recipe.name : "No recipe selected"}</div>
+        {mealPlan.recipe ? (
+          <Link href={`/recipes/${mealPlan.recipe_id}`} className="hover:underline">
+            <div className="font-medium">{mealPlan.recipe.name}</div>
+          </Link>
+        ) : (
+          <div className="font-medium">No recipe selected</div>
+        )}
 
         {mealPlan.notes && <div className="text-xs text-gray-400 mt-1">{mealPlan.notes}</div>}
       </div>

@@ -1,6 +1,5 @@
 import { createClient } from "@/lib/supabase/server"
 import { notFound } from "next/navigation"
-import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft, Pencil } from "lucide-react"
 import RecipeDetail from "@/components/recipes/recipe-detail"
@@ -28,7 +27,6 @@ export default async function RecipePage({ params }: RecipePageProps) {
 
     return (
         <div className="container max-w-4xl mx-auto p-4">
-
             <RecipeDetail recipe={recipe as Recipe} />
         </div>
     )

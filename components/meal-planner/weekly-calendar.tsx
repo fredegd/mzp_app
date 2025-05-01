@@ -114,7 +114,7 @@ export default function WeeklyCalendar() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-7 gap-4">
+      <div className="grid grid-cols-1 xl:grid-cols-7 gap-4">
         {getDaysInWeek().map((date) => {
           const dayMeals = getMealsForDay(date)
           const isToday = new Date().toDateString() === date.toDateString()
