@@ -7,8 +7,9 @@ import { Textarea } from "@/components/ui/textarea"
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Loader2 } from "lucide-react"
+import { Combobox } from "@/components/ui/combobox"
 import { getRecipes, updateMealPlan } from "@/lib/meal-planner"
-import type { Recipe, MealPlan, MealType } from "@/types/meal-planner"
+import type { Recipe, MealPlan } from "@/types/meal-planner"
 
 interface EditMealPlanDialogProps {
   open: boolean
@@ -23,7 +24,7 @@ export default function EditMealPlanDialog({ open, onOpenChange, mealPlan, onMea
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const [mealType, setMealType] = useState<MealType>(mealPlan.meal_type)
+  const [mealType, setMealType] = useState<MealPlan['meal_type']>(mealPlan.meal_type)
   const [recipeId, setRecipeId] = useState<string>(mealPlan.recipe_id || "")
   const [notes, setNotes] = useState(mealPlan.notes || "")
 
@@ -81,6 +82,8 @@ export default function EditMealPlanDialog({ open, onOpenChange, mealPlan, onMea
     }
   }
 
+  const sortedRecipes = recipes.sort((a, b) => a.name.localeCompare(b.name))
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="shadow-md">
@@ -93,7 +96,7 @@ export default function EditMealPlanDialog({ open, onOpenChange, mealPlan, onMea
         <div className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="mealType">Meal Type</Label>
-            <Select value={mealType} onValueChange={(value) => setMealType(value as MealType)}>
+            <Select value={mealType} onValueChange={(value) => setMealType(value as MealPlan['meal_type'])}>
               <SelectTrigger className=" border-gray-700  ">
                 <SelectValue placeholder="Select meal type" />
               </SelectTrigger>
@@ -108,27 +111,25 @@ export default function EditMealPlanDialog({ open, onOpenChange, mealPlan, onMea
 
           <div className="space-y-2">
             <Label htmlFor="recipe">Recipe (optional)</Label>
-            <Select value={recipeId} onValueChange={setRecipeId}>
-              <SelectTrigger className=" border-gray-700  ">
-                <SelectValue placeholder="Select a recipe" />
-              </SelectTrigger>
-              <SelectContent className=" border-gray-700   max-h-[200px]">
-                {loading ? (
-                  <div className="flex items-center justify-center p-2">
-                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                    Loading recipes...
-                  </div>
-                ) : recipes.length > 0 ? (
-                  recipes.map((recipe) => (
-                    <SelectItem key={recipe.id} value={recipe.id}>
-                      {recipe.name}
-                    </SelectItem>
-                  ))
-                ) : (
-                  <div className="p-2 text-gray-500">No recipes found</div>
-                )}
-              </SelectContent>
-            </Select>
+            {loading ? (
+              <div className="flex items-center justify-center p-2 h-10 border border-gray-700 rounded-md">
+                <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                Loading recipes...
+              </div>
+            ) : (
+              <Combobox
+                options={sortedRecipes.map((recipe) => ({
+                  value: recipe.id,
+                  label: recipe.name,
+                }))}
+                value={recipeId}
+                onChange={setRecipeId}
+                placeholder="Select a recipe"
+                searchPlaceholder="Search recipes..."
+                emptyPlaceholder="No recipe found."
+                className="border-gray-700"
+              />
+            )}
           </div>
 
           <div className="space-y-2">
