@@ -7,9 +7,10 @@ import { Textarea } from "@/components/ui/textarea"
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Loader2 } from "lucide-react"
+import { Combobox } from "@/components/ui/combobox"
 import { formatDate } from "@/lib/utils/date"
 import { getRecipes, createMealPlan } from "@/lib/meal-planner"
-import type { Recipe, MealType } from "@/types/meal-planner"
+import type { Recipe } from "@/types/meal-planner"
 
 interface AddMealPlanDialogProps {
   open: boolean
@@ -24,7 +25,7 @@ export default function AddMealPlanDialog({ open, onOpenChange, date, onMealAdde
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const [mealType, setMealType] = useState<MealType>("dinner")
+  const [mealType, setMealType] = useState<string>("dinner")
   const [recipeId, setRecipeId] = useState<string>("")
   const [notes, setNotes] = useState("")
 
@@ -83,6 +84,8 @@ export default function AddMealPlanDialog({ open, onOpenChange, date, onMealAdde
     setNotes("")
   }
 
+  const sortedRecipes = recipes.sort((a, b) => a.name.localeCompare(b.name))
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="shadow-md">
@@ -95,11 +98,11 @@ export default function AddMealPlanDialog({ open, onOpenChange, date, onMealAdde
         <div className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="mealType">Meal Type</Label>
-            <Select value={mealType} onValueChange={(value) => setMealType(value as MealType)}>
-              <SelectTrigger className=" border-gray-700 text-white">
+            <Select value={mealType} onValueChange={(value) => setMealType(value)}>
+              <SelectTrigger className=" border-gray-700 ">
                 <SelectValue placeholder="Select meal type" />
               </SelectTrigger>
-              <SelectContent className=" border-gray-700 text-white">
+              <SelectContent className=" border-gray-700 ">
                 <SelectItem value="breakfast">Breakfast</SelectItem>
                 <SelectItem value="lunch">Lunch</SelectItem>
                 <SelectItem value="dinner">Dinner</SelectItem>
@@ -110,27 +113,25 @@ export default function AddMealPlanDialog({ open, onOpenChange, date, onMealAdde
 
           <div className="space-y-2">
             <Label htmlFor="recipe">Recipe (optional)</Label>
-            <Select value={recipeId} onValueChange={setRecipeId}>
-              <SelectTrigger className=" border-gray-700 text-white">
-                <SelectValue placeholder="Select a recipe" />
-              </SelectTrigger>
-              <SelectContent className=" border-gray-700 text-white max-h-[200px]">
-                {loading ? (
-                  <div className="flex items-center justify-center p-2">
-                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                    Loading recipes...
-                  </div>
-                ) : recipes.length > 0 ? (
-                  recipes.map((recipe) => (
-                    <SelectItem key={recipe.id} value={recipe.id}>
-                      {recipe.name}
-                    </SelectItem>
-                  ))
-                ) : (
-                  <div className="p-2 text-gray-500">No recipes found</div>
-                )}
-              </SelectContent>
-            </Select>
+            {loading ? (
+              <div className="flex items-center justify-center p-2 h-10 border border-gray-700 rounded-md">
+                <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                Loading recipes...
+              </div>
+            ) : (
+              <Combobox
+                options={sortedRecipes.map((recipe) => ({
+                  value: recipe.id,
+                  label: recipe.name,
+                }))}
+                value={recipeId}
+                onChange={setRecipeId}
+                placeholder="Select a recipe"
+                searchPlaceholder="Search recipes..."
+                emptyPlaceholder="No recipe found."
+                className="border-gray-700"
+              />
+            )}
           </div>
 
           <div className="space-y-2">
@@ -139,7 +140,7 @@ export default function AddMealPlanDialog({ open, onOpenChange, date, onMealAdde
               id="notes"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className=" border-gray-700 text-white min-h-[100px]"
+              className=" border-gray-700  min-h-[100px]"
               placeholder="Add any notes about this meal..."
             />
           </div>
@@ -155,7 +156,7 @@ export default function AddMealPlanDialog({ open, onOpenChange, date, onMealAdde
           >
             Cancel
           </Button>
-          <Button onClick={handleSubmit} disabled={submitting} className="bg-[#2b725e] hover:bg-[#235e4c] text-white">
+          <Button onClick={handleSubmit} disabled={submitting} className="bg-[#2b725e] hover:bg-[#235e4c]">
             {submitting ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />

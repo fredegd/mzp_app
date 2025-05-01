@@ -163,12 +163,12 @@ export default function ShoppingList() {
               onChange={(e) => setNewItem(e.target.value)}
               placeholder="Add an item..."
               disabled={addingItem || loading}
-              className=" border-gray-700 text-white"
+              className=" border-gray-700"
             />
             <Button
               type="submit"
               disabled={addingItem || !newItem.trim() || loading}
-              className="bg-[#2b725e] hover:bg-[#235e4c] text-white"
+              className="bg-[#2b725e] hover:bg-[#235e4c]"
             >
               {addingItem ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
             </Button>
@@ -202,7 +202,7 @@ export default function ShoppingList() {
                           />
                           <Label
                             htmlFor={`item-${item.id}`}
-                            className={`${item.checked ? "line-through text-gray-500" : "text-white"} truncate`}
+                            className={`${item.checked && "line-through text-gray-500"} truncate`}
                           >
                             {item.quantity && item.unit ? `${item.quantity} ${item.unit} ${item.item}` : item.item}
                           </Label>
