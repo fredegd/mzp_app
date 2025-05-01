@@ -26,6 +26,8 @@ export default function RecipesPage() {
                 } else if (data) {
                     setRecipes(data)
                     setFilteredRecipes(data)
+
+                    console.log(data)
                 }
             } catch (error) {
                 console.error("Error fetching recipes:", error)
