@@ -86,7 +86,7 @@ export default function GenerateShoppingListDialog({
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
-                    className="w-full justify-start text-left font-normal  border-gray-700 text-white"
+                    className="w-full justify-start text-left font-normal  border-gray-700  "
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
                     {formatDisplayDate(startDate)}
@@ -119,7 +119,7 @@ export default function GenerateShoppingListDialog({
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
-                    className="w-full justify-start text-left font-normal  border-gray-700 text-white"
+                    className="w-full justify-start text-left font-normal  border-gray-700  "
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
                     {formatDisplayDate(endDate)}
@@ -158,7 +158,7 @@ export default function GenerateShoppingListDialog({
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
-          <Button onClick={handleGenerate} disabled={loading} className="bg-[#2b725e] hover:bg-[#235e4c] text-white">
+          <Button onClick={handleGenerate} disabled={loading} className="bg-[#2b725e] hover:bg-[#235e4c]  ">
             {loading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />

@@ -58,7 +58,7 @@ export default function RecipesPage() {
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                 <h1 className="text-3xl font-bold">Recipes</h1>
                 <Link href="/recipes/new">
-                    <Button className="bg-[#2b725e] hover:bg-[#235e4c] text-white">
+                    <Button className="bg-[#2b725e] hover:bg-[#235e4c]  ">
                         <Plus className="h-4 w-4 mr-2" />
                         Add New Recipe
                     </Button>
@@ -72,7 +72,7 @@ export default function RecipesPage() {
                         placeholder="Search recipes..."
                         value={searchQuery}
                         onChange={e => setSearchQuery(e.target.value)}
-                        className="pl-10  border-gray-700 text-white"
+                        className="pl-10  border-gray-700  "
                     />
                 </div>
                 <div className="flex gap-2">
@@ -121,7 +121,7 @@ export default function RecipesPage() {
                         <div className="text-gray-400">
                             <p className="mb-2">You haven&apos;t created any recipes yet</p>
                             <Link href="/recipes/new">
-                                <Button className="bg-[#2b725e] hover:bg-[#235e4c] text-white">
+                                <Button className="bg-[#2b725e] hover:bg-[#235e4c]  ">
                                     <Plus className="h-4 w-4 mr-2" />
                                     Create Your First Recipe
                                 </Button>

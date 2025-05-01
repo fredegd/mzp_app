@@ -110,7 +110,7 @@ export default function AddRecipeToMealPlanDialog({
                             <PopoverTrigger asChild>
                                 <Button
                                     variant={'outline'}
-                                    className={`w-full justify-start text-left font-normal border-gray-700 text-white ${!date && 'text-muted-foreground'}`}
+                                    className={`w-full justify-start text-left font-normal border-gray-700   ${!date && 'text-muted-foreground'}`}
                                 >
                                     <CalendarIcon className="mr-2 h-4 w-4" />
                                     {date ? format(date, 'PPP') : <span>Pick a date</span>}
@@ -132,10 +132,10 @@ export default function AddRecipeToMealPlanDialog({
                     <div className="space-y-2">
                         <Label htmlFor="mealType">Meal Type</Label>
                         <Select value={mealType} onValueChange={(value) => setMealType(value as MealType)}>
-                            <SelectTrigger className="border-gray-700 text-white">
+                            <SelectTrigger className="border-gray-700  ">
                                 <SelectValue placeholder="Select meal type" />
                             </SelectTrigger>
-                            <SelectContent className="border-gray-700 text-white">
+                            <SelectContent className="border-gray-700  ">
                                 {MEAL_TYPES.map((type) => (
                                     <SelectItem key={type} value={type} className="capitalize">
                                         {type}
@@ -152,7 +152,7 @@ export default function AddRecipeToMealPlanDialog({
                             id="notes"
                             value={notes}
                             onChange={(e) => setNotes(e.target.value)}
-                            className="border-gray-700 text-white min-h-[80px]"
+                            className="border-gray-700   min-h-[80px]"
                             placeholder="Add any notes for this meal..."
                         />
                     </div>

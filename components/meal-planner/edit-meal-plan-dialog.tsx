@@ -94,10 +94,10 @@ export default function EditMealPlanDialog({ open, onOpenChange, mealPlan, onMea
           <div className="space-y-2">
             <Label htmlFor="mealType">Meal Type</Label>
             <Select value={mealType} onValueChange={(value) => setMealType(value as MealType)}>
-              <SelectTrigger className=" border-gray-700 text-white">
+              <SelectTrigger className=" border-gray-700  ">
                 <SelectValue placeholder="Select meal type" />
               </SelectTrigger>
-              <SelectContent className=" border-gray-700 text-white">
+              <SelectContent className=" border-gray-700  ">
                 <SelectItem value="breakfast">Breakfast</SelectItem>
                 <SelectItem value="lunch">Lunch</SelectItem>
                 <SelectItem value="dinner">Dinner</SelectItem>
@@ -109,10 +109,10 @@ export default function EditMealPlanDialog({ open, onOpenChange, mealPlan, onMea
           <div className="space-y-2">
             <Label htmlFor="recipe">Recipe (optional)</Label>
             <Select value={recipeId} onValueChange={setRecipeId}>
-              <SelectTrigger className=" border-gray-700 text-white">
+              <SelectTrigger className=" border-gray-700  ">
                 <SelectValue placeholder="Select a recipe" />
               </SelectTrigger>
-              <SelectContent className=" border-gray-700 text-white max-h-[200px]">
+              <SelectContent className=" border-gray-700   max-h-[200px]">
                 {loading ? (
                   <div className="flex items-center justify-center p-2">
                     <Loader2 className="h-4 w-4 animate-spin mr-2" />
@@ -137,7 +137,7 @@ export default function EditMealPlanDialog({ open, onOpenChange, mealPlan, onMea
               id="notes"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className=" border-gray-700 text-white min-h-[100px]"
+              className=" border-gray-700   min-h-[100px]"
               placeholder="Add any notes about this meal..."
             />
           </div>
@@ -147,7 +147,7 @@ export default function EditMealPlanDialog({ open, onOpenChange, mealPlan, onMea
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
-          <Button onClick={handleSubmit} disabled={submitting} className="bg-[#2b725e] hover:bg-[#235e4c] text-white">
+          <Button onClick={handleSubmit} disabled={submitting} className="bg-[#2b725e] hover:bg-[#235e4c]  ">
             {submitting ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />

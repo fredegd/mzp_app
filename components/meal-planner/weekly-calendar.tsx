@@ -99,13 +99,13 @@ export default function WeeklyCalendar() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          <Button variant="outline" size="icon" onClick={goToPreviousWeek} className="text-gray-400 hover:text-white">
+          <Button variant="outline" size="icon" onClick={goToPreviousWeek} className="text-gray-400 hover: ">
             <ChevronLeft className="h-4 w-4" />
           </Button>
-          <Button variant="outline" onClick={goToCurrentWeek} className="text-gray-400 hover:text-white">
+          <Button variant="outline" onClick={goToCurrentWeek} className="text-gray-400 hover: ">
             Today
           </Button>
-          <Button variant="outline" size="icon" onClick={goToNextWeek} className="text-gray-400 hover:text-white">
+          <Button variant="outline" size="icon" onClick={goToNextWeek} className="text-gray-400 hover: ">
             <ChevronRight className="h-4 w-4" />
           </Button>
         </div>
@@ -134,7 +134,7 @@ export default function WeeklyCalendar() {
                     variant="ghost"
                     size="icon"
                     onClick={() => handleAddMeal(date)}
-                    className="text-gray-400 hover:text-white"
+                    className="text-gray-400 hover: "
                   >
                     <Plus className="h-4 w-4" />
                   </Button>
