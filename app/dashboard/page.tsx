@@ -4,19 +4,16 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button"
 import { Clock, UtensilsCrossed, ShoppingCart, Calendar } from "lucide-react"
 import { formatDate } from "@/lib/utils/date"
+import { supabase } from "@/lib/supabase/client"
 
 export default async function DashboardPage() {
-    const supabase = createClient()
-
-    // Get current user
-    const { data: { user } } = await supabase.auth.getUser()
 
     // Get recent recipes (limit 3)
     const { data: recipes } = await supabase
         .from("recipes")
         .select("*")
         .order("created_at", { ascending: false })
-    // .limit(3)
+        .limit(3)
 
     // Get upcoming meal plans
     const today = formatDate(new Date())
