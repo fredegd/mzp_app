@@ -14,7 +14,7 @@ export default function RecipeCard({ recipe, viewMode = "grid" }: RecipeCardProp
 
   // Gemeinsame Inhalte für beide Modi
   const recipeImage = recipe.image_url ? (
-    <div className={`${isListMode ? "w-1/6 h-full bg-cover  " : "aspect-video w-full mb-4"} overflow-hidden rounded-md`}>
+    <div className={`${isListMode ? "md:w-1/6 w-1/5  h-full bg-cover  " : "aspect-video w-full mb-4"} overflow-hidden rounded-md`}>
       <img
         src={recipe.image_url || "/placeholder.svg"}
         alt={recipe.name}
@@ -29,7 +29,6 @@ export default function RecipeCard({ recipe, viewMode = "grid" }: RecipeCardProp
 
   const recipeDetails = (
     <>
-      <p className="text-gray-400 text-sm line-clamp-2 mb-4">{recipe.description || "No description available."}</p>
       <div className="flex justify-between text-sm text-gray-400">
         {(recipe.prep_time || recipe.cook_time) && (
           <div className="flex items-center">
@@ -57,7 +56,7 @@ export default function RecipeCard({ recipe, viewMode = "grid" }: RecipeCardProp
   if (isListMode) {
     return (
       <Link href={`/recipes/${recipe.id}`} className="w-full">
-        <Card className="h-32 flex flex-row shadow-md hover:border-gray-700 transition-colors">
+        <Card className="md:h-32 h-24 flex flex-row shadow-md hover:border-gray-700 transition-colors">
           {recipeImage}
           <div className="flex flex-col flex-1 p-4">
             <CardTitle className="line-clamp-1 mb-2">{recipe.name}</CardTitle>
@@ -75,7 +74,7 @@ export default function RecipeCard({ recipe, viewMode = "grid" }: RecipeCardProp
     <Link href={`/recipes/${recipe.id}`} className="w-full">
       <Card className="h-full flex flex-col shadow-md hover:border-gray-700 transition-colors">
         <CardHeader className="pb-2">
-          <CardTitle className="line-clamp-1">{recipe.name}</CardTitle>
+          <CardTitle className="line-clamp-1 mb-4">{recipe.name}</CardTitle>
         </CardHeader>
         <CardContent className="flex-1">
           {recipeImage}

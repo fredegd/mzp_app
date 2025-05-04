@@ -2,11 +2,10 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import Link from "next/link"
-import { ArrowLeft, CalendarPlus } from "lucide-react"
+import { CalendarPlus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Clock, Users, ChevronLeft, Edit, Trash2, AlertCircle } from "lucide-react"
+import { Clock, Users, Edit, Trash2, AlertCircle } from "lucide-react"
 import {
   Dialog,
   DialogContent,
@@ -20,6 +19,7 @@ import type { Ingredient } from "@/types/meal-planner"
 import { deleteRecipe } from "@/lib/meal-planner"
 import AddRecipeToMealPlanDialog from './add-recipe-to-meal-plan-dialog'
 import { toast } from "sonner"
+import BackButton from "@/components/ui/back-button"
 
 interface RecipeDetailProps {
   recipe: Recipe
@@ -53,17 +53,7 @@ export default function RecipeDetail({ recipe }: RecipeDetailProps) {
   return (
     <>
       <div className="mb-6 flex items-center justify-between">
-        {/* <Link href="/recipes">
-          <Button variant="outline" size="sm" className="gap-2">
-            <ArrowLeft className="h-4 w-4" />
-            Back 
-          </Button>
-        </Link> */}
-
-        <Button variant="outline" size="sm" className="gap-2" onClick={() => router.back()}>
-          <ArrowLeft className="h-4 w-4" />
-          <span className="hidden md:block">Back</span>
-        </Button>
+        <BackButton />
 
         <div className="flex gap-2">
           <Button variant="outline" onClick={() => setAddToPlanDialogOpen(true)}>
