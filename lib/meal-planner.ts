@@ -27,15 +27,44 @@ async function getUserId() {
 }
 
 // RECIPE FUNCTIONS
-export async function getRecipes() {
+export async function getRecipes({
+  page = 1,
+  pageSize = 30,
+  sortBy = "name",
+  sortOrder = "asc",
+}: {
+  page?: number;
+  pageSize?: number;
+  sortBy?: "name" | "created_at" | "updated_at" | "prep_time";
+  sortOrder?: "asc" | "desc";
+} = {}) {
   try {
     const supabase = createClient();
+    const from = (page - 1) * pageSize;
+    const to = from + pageSize - 1;
+
+    // Get total count for pagination
+    const { count, error: countError } = await supabase
+      .from("recipes")
+      .select("*", { count: "exact", head: true });
+
+    if (countError) throw countError;
+
+    // Get paginated data with sorting
     const { data, error } = await supabase
       .from("recipes")
       .select("*")
-      .order("created_at", { ascending: false });
+      .order(sortBy, { ascending: sortOrder === "asc" })
+      .range(from, to);
+
     if (error) throw error;
-    return { recipes: data as Recipe[] };
+
+    return {
+      recipes: data as Recipe[],
+      totalCount: count,
+      totalPages: Math.ceil((count || 0) / pageSize),
+      currentPage: page,
+    };
   } catch (error: any) {
     console.error("Error fetching recipes:", error);
     return { error: error.message || "Failed to fetch recipes" };

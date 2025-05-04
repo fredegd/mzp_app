@@ -12,13 +12,15 @@ interface RecipePageProps {
 }
 
 export default async function RecipePage({ params }: RecipePageProps) {
+
+    const { id } = await params
     const supabase = createClient()
 
     // Get the recipe
     const { data: recipe, error } = await supabase
         .from("recipes")
         .select("*")
-        .eq("id", params.id)
+        .eq("id", id)
         .single()
 
     if (error || !recipe) {
