@@ -7,13 +7,12 @@ import { formatDate } from "@/lib/utils/date"
 import { supabase } from "@/lib/supabase/client"
 
 export default async function DashboardPage() {
-
+    const supabase = await createClient()
     // Get recent recipes (limit 3)
     const { data: recipes } = await supabase
         .from("recipes")
         .select("*")
-        .order("created_at", { ascending: false })
-        .limit(3)
+        .order("updated_at", { ascending: false })
 
     // Get upcoming meal plans
     const today = formatDate(new Date())
