@@ -184,7 +184,7 @@ export default function ShoppingList() {
             <div className="space-y-6">
               {sortedGroupNames.map((groupName) => (
                 <div key={groupName}>
-                  <h3 className="text-lg font-semibold mb-2 text-gray-300 border-b border-gray-600 pb-1">
+                  <h3 className="text-lg font-semibold mb-2  border-b border-gray-600 pb-1">
                     {groupName}
                   </h3>
                   <div className="space-y-2">

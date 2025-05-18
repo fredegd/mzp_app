@@ -30,6 +30,35 @@ import {
 } from "@/components/ui/select"
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination"
 
+// Safari grid fix styles
+const safariFix = `
+  @supports (-webkit-hyphens:none) {
+    .safari-grid-fix {
+      display: -ms-grid;
+      display: grid;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+    
+    @media (min-width: 640px) {
+      .safari-grid-fix.grid-cols-sm-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    
+    @media (min-width: 1024px) {
+      .safari-grid-fix.grid-cols-lg-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+    
+    @media (min-width: 1280px) {
+      .safari-grid-fix.grid-cols-xl-4 {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+  }
+`
+
 type SortOption = "name" | "created_at" | "updated_at" | "prep_time"
 type SortOrder = "asc" | "desc"
 
@@ -201,6 +230,7 @@ export default function RecipesPage() {
 
     return (
         <div className="container max-w-7xl mx-auto p-4" ref={containerRef}>
+            <style dangerouslySetInnerHTML={{ __html: safariFix }} />
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                 <h1 className="text-3xl font-bold">Recipes</h1>
                 <Link href="/recipes/new">
@@ -302,10 +332,10 @@ export default function RecipesPage() {
                 </div>
             ) : filteredRecipes.length > 0 ? (
                 <>
-                    <div className={viewMode === "grid"
-                        ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
-                        : "grid grid-cols-1 gap-4"
-                    }>
+                    <div className={`safari-grid-fix ${viewMode === "grid"
+                        ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full grid-cols-sm-2 grid-cols-lg-3 grid-cols-xl-4"
+                        : "grid grid-cols-1 gap-4 w-full"
+                        }`}>
                         {filteredRecipes.map(recipe => (
                             <RecipeCard key={recipe.id} recipe={recipe} viewMode={viewMode} />
                         ))}
