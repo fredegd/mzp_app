@@ -28,15 +28,7 @@ export default async function EditRecipePage({ params }: EditRecipePageProps) {
 
     return (
         <div className="container max-w-4xl mx-auto p-4">
-            <div className="flex items-center mb-6">
-                <Link href={`/recipes/${params.id}`}>
-                    <Button variant="outline" size="sm" className="gap-2">
-                        <ArrowLeft className="h-4 w-4" />
-                        Back to Recipe
-                    </Button>
-                </Link>
-                <h1 className="text-3xl font-bold ml-4">Edit Recipe</h1>
-            </div>
+
 
             <RecipeForm initialRecipe={recipe as Recipe} isEditing />
         </div>

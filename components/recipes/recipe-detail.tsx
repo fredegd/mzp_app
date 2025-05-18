@@ -53,19 +53,19 @@ export default function RecipeDetail({ recipe }: RecipeDetailProps) {
   return (
     <>
       <div className="mb-6 flex items-center justify-between">
-        <BackButton />
+        {/* <BackButton /> */}
 
+        <Button variant="outline" onClick={() => setAddToPlanDialogOpen(true)}>
+          <CalendarPlus className="h-4 w-4 mr-2" />
+          <span className="hidden md:block">Add to Meal-Plan</span>
+        </Button>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={() => setAddToPlanDialogOpen(true)}>
-            <CalendarPlus className="h-4 w-4 mr-2" />
-            <span className="hidden md:block">Add to Meal-Plan</span>
-          </Button>
-          <Button variant="outline" onClick={() => router.push(`/recipes/${recipe.id}/edit`)}>
-            <Edit className="h-4 w-4 mr-2" />
+          <Button variant="outline" onClick={() => router.push(`/recipes/${recipe.id}/edit`)} className="flex items-center justify-center w-full">
+            <Edit className="h-4 w-4" />
             <span className="hidden md:block">Edit</span>
           </Button>
-          <Button variant="destructive" onClick={() => setDeleteDialogOpen(true)}>
-            <Trash2 className="h-4 w-4 mr-2" />
+          <Button variant="destructive" onClick={() => setDeleteDialogOpen(true)} className="flex items-center justify-center w-full">
+            <Trash2 className="h-4 w-4" />
 
             <span className="hidden md:block">Delete</span>
           </Button>
@@ -76,7 +76,7 @@ export default function RecipeDetail({ recipe }: RecipeDetailProps) {
         <CardHeader>
           <CardTitle className="text-2xl">{recipe.name}</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-10 flex flex-col gap-10">
           {recipe.image_url && (
             <div className="w-full max-h-[300px] overflow-hidden rounded-md flex items-center justify-center">
               <img
@@ -116,8 +116,8 @@ export default function RecipeDetail({ recipe }: RecipeDetailProps) {
           )}
 
           <div>
-            <h3 className="text-lg font-medium mb-2">Ingredients</h3>
-            <ul className="list-disc pl-5 space-y-1 text-gray-300">
+            <h3 className="text-xl font-medium mb-2">Ingredients</h3>
+            <ul className="list-disc pl-5 space-y-1">
               {Array.isArray(recipe.ingredients) && recipe.ingredients.map((ingredient: Ingredient, index: number) => (
                 <li key={index}>
                   {ingredient.quantity} {ingredient.unit} {ingredient.name}
@@ -126,9 +126,9 @@ export default function RecipeDetail({ recipe }: RecipeDetailProps) {
             </ul>
           </div>
 
-          <div>
-            <h3 className="text-lg font-medium mb-2">Instructions</h3>
-            <div className="text-gray-300 whitespace-pre-line">{recipe.instructions}</div>
+          <div >
+            <h3 className="text-xl font-medium mb-2">Zubereitung</h3>
+            <div className=" whitespace-pre-line">{recipe.instructions}</div>
           </div>
         </CardContent>
       </Card>

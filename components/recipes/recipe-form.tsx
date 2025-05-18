@@ -9,9 +9,55 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Loader2, Plus, Trash2 } from "lucide-react"
+import { Loader2, Plus, Trash2, Check, ChevronsUpDown } from "lucide-react"
 import type { Recipe, Ingredient } from "@/types/meal-planner"
 import { createRecipe, updateRecipe } from "@/lib/meal-planner"
+import { cn } from "@/lib/utils"
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+
+// Define unit options and sort them alphabetically
+const unitOptions = [
+  "none",
+  "g",
+  "kg",
+  "ml",
+  "Liter",
+  "EL",
+  "TL",
+  "Tasse",
+  "Stück",
+  "Packung",
+  "Päckchen",
+  "Dose",
+  "Glas",
+  "Scheibe",
+  "Blatt",
+  "Bund",
+  "Stange",
+  "Stiel",
+  "Zweig",
+  "Zehe",
+  "Handvoll",
+  "Prise",
+  "Kugel",
+  "Kästchen",
+  "Topf",
+  "Beutel",
+  "Tropfen",
+  "Würfel",
+  "Tüte"
+].sort();
 
 interface RecipeFormProps {
   initialRecipe?: Recipe
@@ -33,6 +79,7 @@ export default function RecipeForm({ initialRecipe, isEditing = false }: RecipeF
   const [cookTime, setCookTime] = useState(initialRecipe?.cook_time?.toString() || "")
   const [servings, setServings] = useState(initialRecipe?.servings?.toString() || "")
   const [imageUrl, setImageUrl] = useState(initialRecipe?.image_url || "")
+  const [openUnitPopover, setOpenUnitPopover] = useState<number | null>(null)
 
   const addIngredient = () => {
     setIngredients([...ingredients, { name: "", quantity: 1, unit: "" }])
@@ -137,23 +184,14 @@ export default function RecipeForm({ initialRecipe, isEditing = false }: RecipeF
           </div>
 
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center ">
               <Label>Ingredients</Label>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={addIngredient}
-                className="text-[#2b725e] border-[#2b725e]"
-              >
-                <Plus className="h-4 w-4 mr-1" />
-                Add Ingredient
-              </Button>
+
             </div>
 
             {ingredients.map((ingredient, index) => (
-              <div key={index} className="flex items-center gap-2">
-                <div className="flex-1">
+              <div key={index} className="flex flex-col gap-2 md:flex-row items-center relative">
+                <div className="w-full md:w-2/3 md:pr-2">
                   <Input
                     value={ingredient.name}
                     onChange={(e) => updateIngredient(index, "name", e.target.value)}
@@ -161,41 +199,86 @@ export default function RecipeForm({ initialRecipe, isEditing = false }: RecipeF
                     placeholder="e.g., Flour"
                   />
                 </div>
-                <div className="w-20">
-                  <Input
-                    type="number"
-                    value={ingredient.quantity}
-                    onChange={(e) => updateIngredient(index, "quantity", e.target.value)}
-                    className=" border-gray-700  "
-                    placeholder="Qty"
-                    min="0"
-                    step="0.1"
-                  />
+                <div className="w-full md:w-1/3 flex gap-2">
+                  <div className="w-1/2 max-w-1/2">
+                    <Input
+                      type="number"
+                      value={ingredient.quantity ?? 1}
+                      onChange={(e) => updateIngredient(index, "quantity", e.target.value)}
+                      className=" border-gray-700  "
+                      placeholder="Qty"
+                      min="0"
+                      step="0.1"
+                    />
+                  </div>
+                  <div className="w-1/2 max-w-1/2">
+                    <Popover open={openUnitPopover === index} onOpenChange={(open) => setOpenUnitPopover(open ? index : null)}>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          role="combobox"
+                          aria-expanded={openUnitPopover === index}
+                          className="w-full justify-between border-gray-700"
+                        >
+                          {ingredient.unit || "Select unit"}
+                          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-full p-0">
+                        <Command>
+                          <CommandInput placeholder="Search unit..." />
+                          <CommandEmpty>No unit found.</CommandEmpty>
+                          <CommandGroup className="max-h-60 overflow-y-auto">
+                            {unitOptions.map((unit) => (
+                              <CommandItem
+                                key={unit}
+                                value={unit}
+                                onSelect={() => {
+                                  updateIngredient(index, "unit", unit)
+                                  setOpenUnitPopover(null)
+                                }}
+                              >
+                                <Check
+                                  className={cn(
+                                    "mr-2 h-4 w-4",
+                                    ingredient.unit === unit ? "opacity-100" : "opacity-0"
+                                  )}
+                                />
+                                {unit}
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => removeIngredient(index)}
+                    disabled={ingredients.length === 1}
+                    className="text-red-500 hover:text-red-400 "
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
                 </div>
-                <div className="w-24">
-                  <Input
-                    value={ingredient.unit}
-                    onChange={(e) => updateIngredient(index, "unit", e.target.value)}
-                    className=" border-gray-700  "
-                    placeholder="e.g., cups"
-                  />
-                </div>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => removeIngredient(index)}
-                  disabled={ingredients.length === 1}
-                  className="text-red-500 hover:text-red-400"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
               </div>
             ))}
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={addIngredient}
+              className="text-[#2b725e] border-[#2b725e]"
+            >
+              <Plus className="h-4 w-4 mr-1" />
+              Add Ingredient
+            </Button>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="instructions">Instructions</Label>
+            <Label htmlFor="instructions">Zubereitung</Label>
             <Textarea
               id="instructions"
               value={instructions}
