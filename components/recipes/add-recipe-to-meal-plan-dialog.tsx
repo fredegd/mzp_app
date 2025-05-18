@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
@@ -50,6 +50,21 @@ export default function AddRecipeToMealPlanDialog({
     const [date, setDate] = useState<Date | undefined>(new Date())
     const [mealType, setMealType] = useState<MealType>('dinner')
     const [notes, setNotes] = useState('')
+    const [calendarOpen, setCalendarOpen] = useState(false)
+    const calendarRef = useRef<HTMLDivElement>(null)
+
+    // Close calendar on click outside
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (calendarRef.current && !calendarRef.current.contains(event.target as Node)) {
+                setCalendarOpen(false)
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside)
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside)
+        }
+    }, [])
 
     const handleSubmit = async () => {
         if (!date) {
@@ -87,6 +102,7 @@ export default function AddRecipeToMealPlanDialog({
         setMealType('dinner')
         setNotes('')
         setError(null)
+        setCalendarOpen(false)
     }
 
     const handleOpenChange = (isOpen: boolean) => {
@@ -106,26 +122,34 @@ export default function AddRecipeToMealPlanDialog({
                     {/* Date Picker */}
                     <div className="space-y-2">
                         <Label htmlFor="date">Date</Label>
-                        <Popover>
-                            <PopoverTrigger asChild>
-                                <Button
-                                    variant={'outline'}
-                                    className={`w-full justify-start text-left font-normal border-gray-700   ${!date && 'text-muted-foreground'}`}
+                        <div className="relative">
+                            <Button
+                                type="button"
+                                variant={'outline'}
+                                className={`w-full justify-start text-left font-normal border-gray-700 ${!date && 'text-muted-foreground'}`}
+                                onClick={() => setCalendarOpen(!calendarOpen)}
+                            >
+                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                {date ? format(date, 'PPP') : <span>Pick a date</span>}
+                            </Button>
+
+                            {calendarOpen && (
+                                <div
+                                    ref={calendarRef}
+                                    className="absolute left-0 top-[calc(100%+4px)] z-50 rounded-md border bg-popover p-3 shadow-md"
                                 >
-                                    <CalendarIcon className="mr-2 h-4 w-4" />
-                                    {date ? format(date, 'PPP') : <span>Pick a date</span>}
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0">
-                                <Calendar
-                                    mode="single"
-                                    selected={date}
-                                    onSelect={setDate}
-                                    initialFocus
-                                    className="bg-gray-900 border border-gray-700 rounded-md"
-                                />
-                            </PopoverContent>
-                        </Popover>
+                                    <Calendar
+                                        mode="single"
+                                        selected={date}
+                                        onSelect={(newDate) => {
+                                            setDate(newDate);
+                                            setCalendarOpen(false);
+                                        }}
+                                        initialFocus
+                                    />
+                                </div>
+                            )}
+                        </div>
                     </div>
 
                     {/* Meal Type Select */}
