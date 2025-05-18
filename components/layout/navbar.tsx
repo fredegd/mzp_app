@@ -2,17 +2,47 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { LogOut, ChefHat, Calendar, ShoppingCart, User, Home } from "lucide-react"
+import { LogOut, ChefHat, Calendar, ShoppingCart, User, Home, ChevronDown } from "lucide-react"
 import { signOut } from "@/lib/actions"
-import { ThemeToggle } from "./theme-toggle"
 import { cn } from "@/lib/utils"
+import { supabase } from "@/lib/supabase/client"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { ThemeToggle } from "./theme-toggle"
 
 export default function Navbar() {
   const pathname = usePathname()
+  const [userEmail, setUserEmail] = useState<string | null>(null)
+
+  // Get user email on component mount
+  useEffect(() => {
+    const getUserEmail = async () => {
+      const { data } = await supabase.auth.getUser()
+      if (data.user?.email) {
+        setUserEmail(data.user.email)
+      }
+    }
+
+    getUserEmail()
+  }, [])
 
   const isActive = (path: string) => {
     return pathname === path || pathname?.startsWith(path + "/")
+  }
+
+  // Get first letter of email to use as avatar fallback
+  const getInitial = () => {
+    if (!userEmail) return "U"
+    return userEmail.charAt(0).toUpperCase()
   }
 
   return (
@@ -71,26 +101,40 @@ export default function Navbar() {
             </div>
           </div>
           <div className="flex items-center space-x-2">
-            <ThemeToggle />
-            <Link href="/profile">
-              <Button
-                variant={isActive("/profile") ? "default" : "ghost"}
-                className={cn(
-                  isActive("/profile") && "bg-primary text-primary-foreground"
-                )}
-              >
-                <User className="h-4 w-4 mr-2" />
 
-                <span className="hidden md:block">Profile</span>
-              </Button>
-            </Link>
-            <form action={signOut}>
-              <Button type="submit" variant="ghost">
-                <LogOut className="h-4 w-4 mr-2" />
-                <span className="hidden md:block">Sign Out</span>
+            {/* User dropdown menu */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="flex items-center gap-1">
+                  <Avatar className="h-8 w-8 mr-1">
+                    <AvatarFallback>{getInitial()}</AvatarFallback>
+                  </Avatar>
+                  <span className="hidden md:block">{userEmail || 'User'}</span>
+                  <ChevronDown className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <Link href="/profile">
+                  <DropdownMenuItem className="cursor-pointer">
+                    <User className="h-4 w-4 mr-2" />
+                    Profile
+                  </DropdownMenuItem>
+                </Link>
+                <ThemeToggle />
 
-              </Button>
-            </form>
+                <form action={signOut}>
+                  <DropdownMenuItem className="cursor-pointer" asChild>
+                    <button className="w-full flex items-center">
+                      <LogOut className="h-4 w-4 mr-2" />
+                      Sign Out
+                    </button>
+                  </DropdownMenuItem>
+                </form>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
           </div>
         </div>
 
@@ -145,6 +189,38 @@ export default function Navbar() {
             {isActive("/shopping-list") && "Shopping List"}
           </Button>
         </Link>
+        {/* User dropdown menu */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="flex items-center gap-1">
+              <Avatar className="h-8 w-8 mr-1">
+                <AvatarFallback>{getInitial()}</AvatarFallback>
+              </Avatar>
+              <span className="hidden md:block">{userEmail || 'User'}</span>
+              <ChevronDown className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <Link href="/profile">
+              <DropdownMenuItem className="cursor-pointer">
+                <User className="h-4 w-4 mr-2" />
+                Profile
+              </DropdownMenuItem>
+            </Link>
+            <ThemeToggle />
+
+            <form action={signOut}>
+              <DropdownMenuItem className="cursor-pointer" asChild>
+                <button className="w-full flex items-center">
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Sign Out
+                </button>
+              </DropdownMenuItem>
+            </form>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
     </>
