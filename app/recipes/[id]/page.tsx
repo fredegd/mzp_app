@@ -28,7 +28,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
     }
 
     return (
-        <div className="container max-w-4xl mx-auto p-4">
+        <div className="container max-w-4xl mx-auto p-4 mb-16">
             <RecipeDetail recipe={recipe as Recipe} />
         </div>
     )

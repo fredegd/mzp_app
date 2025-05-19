@@ -52,7 +52,7 @@ export default function Navbar() {
         <div className="flex justify-between h-16 fixed top-0 left-0 right-0  px-6 py-4 bg-background">
           <Link href="/dashboard" className="text-xl font-bold text-foreground">
             Mahlzeit          </Link>
-          <div className="md:flex items-center space-x-8 hidden  justify-around h-16 fixed top-0 left-0 right-0 z-50 bg-inherit px-2 py-4">
+          <div className="md:flex items-center space-x-8 hidden  justify-around h-16 fixed top-0 left-0 right-0 z-50 px-2 py-4">
             <div className="hidden md:flex space-x-1">
               <Link href="/dashboard">
                 <Button
@@ -100,7 +100,6 @@ export default function Navbar() {
             </div>
           </div>
           <div className="flex items-center space-x-2">
-
             {/* User dropdown menu */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -133,8 +132,6 @@ export default function Navbar() {
                 </form>
               </DropdownMenuContent>
             </DropdownMenu>
-
-
           </div>
         </div>
         {/* Mobile navigation */}

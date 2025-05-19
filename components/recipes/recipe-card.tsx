@@ -14,7 +14,7 @@ export default function RecipeCard({ recipe, viewMode = "grid" }: RecipeCardProp
 
   // Gemeinsame Inhalte für beide Modi
   const recipeImage = recipe.image_url ? (
-    <div className={`${isListMode ? "md:w-1/6 w-1/5  h-full bg-cover  " : "aspect-video w-full mb-4"} overflow-hidden rounded-md`}>
+    <div className={`${isListMode ? "md:w-1/6 w-1/3  h-full bg-cover  " : "aspect-video w-full mb-4"} overflow-hidden rounded-md`}>
       <img
         src={recipe.image_url || "/placeholder.svg"}
         alt={recipe.name}

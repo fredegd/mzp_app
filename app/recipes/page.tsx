@@ -374,7 +374,7 @@ export default function RecipesPage() {
 
             {showScrollTop && (
                 <Button
-                    className="fixed bottom-6 right-6 bg-[#2b725e] hover:bg-[#235e4c] rounded-full shadow-lg p-3 z-40"
+                    className="fixed md:bottom-6 bottom-20 right-6 bg-[#2b725e] hover:bg-[#235e4c] rounded-full shadow-lg p-3 z-40"
                     size="icon"
                     onClick={scrollToTop}
                 >

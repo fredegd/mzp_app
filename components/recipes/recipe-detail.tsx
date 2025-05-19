@@ -52,33 +52,33 @@ export default function RecipeDetail({ recipe }: RecipeDetailProps) {
 
   return (
     <>
-      <div className="mb-6 flex items-center justify-between">
-        {/* <BackButton /> */}
-
-        <Button variant="outline" onClick={() => setAddToPlanDialogOpen(true)}>
-          <CalendarPlus className="h-4 w-4 mr-2" />
-          <span className="hidden md:block">Add to Meal-Plan</span>
-        </Button>
-        <div className="flex gap-2">
-          <Button variant="outline" onClick={() => router.push(`/recipes/${recipe.id}/edit`)} className="flex items-center justify-center w-full">
-            <Edit className="h-4 w-4" />
-            <span className="hidden md:block">Edit</span>
-          </Button>
-          <Button variant="destructive" onClick={() => setDeleteDialogOpen(true)} className="flex items-center justify-center w-full">
-            <Trash2 className="h-4 w-4" />
-
-            <span className="hidden md:block">Delete</span>
-          </Button>
-        </div>
-      </div>
 
       <Card className="shadow-md">
         <CardHeader>
-          <CardTitle className="text-2xl">{recipe.name}</CardTitle>
+          <CardTitle className="text-2xl mb-2">{recipe.name}</CardTitle>
+          <div className="flex items-center justify-between">
+
+
+            <Button variant="outline" onClick={() => setAddToPlanDialogOpen(true)}>
+              <CalendarPlus className="h-4 w-4 mr-2" />
+              <span className="hidden md:block">Add to Meal-Plan</span>
+            </Button>
+            <div className="flex gap-2">
+              <Button variant="outline" onClick={() => router.push(`/recipes/${recipe.id}/edit`)} className="flex items-center justify-center w-full">
+                <Edit className="h-4 w-4" />
+                <span className="hidden md:block">Edit</span>
+              </Button>
+              <Button variant="destructive" onClick={() => setDeleteDialogOpen(true)} className="flex items-center justify-center w-full">
+                <Trash2 className="h-4 w-4" />
+
+                <span className="hidden md:block">Delete</span>
+              </Button>
+            </div>
+          </div>
         </CardHeader>
         <CardContent className="space-y-10 flex flex-col gap-10">
           {recipe.image_url && (
-            <div className="w-full max-h-[300px] overflow-hidden rounded-md flex items-center justify-center">
+            <div className="w-full max-h-[350px] overflow-hidden rounded-md flex items-center justify-center">
               <img
                 src={recipe.image_url || "/placeholder.svg"}
                 alt={recipe.name}
@@ -86,6 +86,8 @@ export default function RecipeDetail({ recipe }: RecipeDetailProps) {
               />
             </div>
           )}
+
+
 
           <div className="flex flex-wrap gap-4 text-sm text-gray-400">
             {(recipe.prep_time || recipe.cook_time) && (
