@@ -229,7 +229,7 @@ export default function RecipesPage() {
     }
 
     return (
-        <div className="container max-w-7xl mx-auto p-4" ref={containerRef}>
+        <div className="container max-w-7xl mx-auto p-4 mb-16" ref={containerRef}>
             <style dangerouslySetInnerHTML={{ __html: safariFix }} />
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                 <h1 className="text-3xl font-bold">Recipes</h1>

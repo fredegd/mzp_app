@@ -5,7 +5,7 @@ import WeeklyCalendar from "@/components/meal-planner/weekly-calendar"
 
 export default function MealPlannerPage() {
     return (
-        <div className="container max-w-7xl mx-auto p-4">
+        <div className="container max-w-7xl mx-auto p-4 mb-16">
             <h1 className="text-3xl font-bold mb-6">Meal Plan Calender</h1>
 
             <Card className="shadow-md mb-6">

@@ -58,7 +58,7 @@ export default async function RootLayout({
               {children}
             </UserDataProvider>
           ) : (
-            children
+            <>{children}</>
           )}
         </ThemeProvider>
       </body>

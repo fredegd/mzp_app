@@ -1,12 +1,7 @@
-import { createClient, isSupabaseConfigured } from "@/lib/supabase/server"
+import { createClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
-// import SetupMessage from "@/components/setup"
 
 export default async function Home() {
-  // // If Supabase is not configured, show setup message directly
-  // if (!isSupabaseConfigured) {
-  //   return <SetupMessage />
-  // }
 
   // Get the user from the server
   const supabase = createClient()

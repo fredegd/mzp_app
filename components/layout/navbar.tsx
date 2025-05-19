@@ -140,7 +140,7 @@ export default function Navbar() {
         </div>
       </nav>
       {/* Mobile navigation */}
-      <div className=" md:hidden flex justify-around h-16 fixed bottom-0 left-0 right-0 bg-inherit px-2 py-4 mb-2">
+      <div className=" md:hidden flex justify-around h-16 fixed bottom-0 left-0 right-0 bg-inherit px-2 py-4">
         <Link href="/dashboard">
           <Button
             variant="ghost"

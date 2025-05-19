@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button"
 import { Clock, UtensilsCrossed, ShoppingCart, Calendar, Plus } from "lucide-react"
 import { formatDate } from "@/lib/utils/date"
-import { supabase } from "@/lib/supabase/client"
+import RecipeCard from "@/components/recipes/recipe-card"
 
 export default async function DashboardPage() {
     const supabase = await createClient()
@@ -39,7 +39,7 @@ export default async function DashboardPage() {
         .eq("checked", true)
 
     return (
-        <div className="container max-w-7xl mx-auto p-4">
+        <div className="container max-w-7xl mx-auto p-4 mb-16">
             <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -128,19 +128,20 @@ export default async function DashboardPage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {recipes && recipes.length > 0 ? (
                         recipes.slice(0, 3).map((recipe) => (
-                            <Card key={recipe.id} className="shadow-md">
-                                <CardHeader>
-                                    <CardTitle className="line-clamp-1">{recipe.name}</CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <p className="text-gray-400 text-sm line-clamp-2">{recipe.description || "No description available."}</p>
-                                </CardContent>
-                                <CardFooter>
-                                    <Link href={`/recipes/${recipe.id}`} className="w-full">
-                                        <Button variant="outline" className="w-full">View Recipe</Button>
-                                    </Link>
-                                </CardFooter>
-                            </Card>
+                            // <Card key={recipe.id} className="shadow-md">
+                            //     <CardHeader>
+                            //         <CardTitle className="line-clamp-1">{recipe.name}</CardTitle>
+                            //     </CardHeader>
+                            //     <CardContent>
+                            //         <p className="text-gray-400 text-sm line-clamp-2">{recipe.description || "No description available."}</p>
+                            //     </CardContent>
+                            //     <CardFooter>
+                            //         <Link href={`/recipes/${recipe.id}`} className="w-full">
+                            //             <Button variant="outline" className="w-full">View Recipe</Button>
+                            //         </Link>
+                            //     </CardFooter>
+                            // </Card>
+                            <RecipeCard key={recipe.id} recipe={recipe} viewMode="grid" />
                         ))
                     ) : (
                         <Card className="col-span-3 shadow-md">
@@ -166,20 +167,20 @@ export default async function DashboardPage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {mealPlans && mealPlans.length > 0 ? (
                         mealPlans.map((meal) => (
-                            <Card key={meal.id} className="shadow-md">
-                                <CardHeader>
-                                    <CardTitle className="capitalize">{new Date(meal.date).toLocaleDateString()} - {meal.meal_type}</CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <p className="font-medium">{meal.recipes?.name || "No recipe selected"}</p>
-                                    {meal.notes && <p className="text-gray-400 text-sm mt-2">{meal.notes}</p>}
-                                </CardContent>
-                                <CardFooter>
-                                    <Link href="/meal-planner" className="w-full">
-                                        <Button variant="outline" className="w-full">View Calender</Button>
-                                    </Link>
-                                </CardFooter>
-                            </Card>
+
+
+                            <Link href="/meal-planner" className="w-full">
+                                <Card key={meal.id} className="shadow-md">
+                                    <CardHeader>
+                                        <CardTitle className="capitalize">{new Date(meal.date).toLocaleDateString()} - {meal.meal_type}</CardTitle>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <p className="font-medium">{meal.recipes?.name || "No recipe selected"}</p>
+                                        {meal.notes && <p className="text-gray-400 text-sm mt-2">{meal.notes}</p>}
+                                    </CardContent>
+
+                                </Card>
+                            </Link>
                         ))
                     ) : (
                         <Card className="col-span-3 shadow-md">

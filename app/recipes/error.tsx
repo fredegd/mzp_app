@@ -17,7 +17,7 @@ export default function RecipesError({
     }, [error])
 
     return (
-        <div className="container max-w-7xl mx-auto p-4">
+        <div className="container max-w-7xl mx-auto p-4 mb-16">
             <h1 className="text-3xl font-bold mb-6">Recipes</h1>
             <div className="p-6 bg-red-500/10 border border-red-500 rounded-lg text-center">
                 <AlertCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />
