@@ -111,7 +111,7 @@ export default function Navbar() {
                       <AvatarFallback>{getInitial()}</AvatarFallback>
                     </Avatar>
                     <span className="hidden lg:block">{userEmail || 'User'}</span>
-                    <ChevronDown className="h-4 w-4" />
+                    {/* <ChevronDown className="h-4 w-4" /> */}
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
@@ -198,7 +198,7 @@ export default function Navbar() {
                 <AvatarFallback>{getInitial()}</AvatarFallback>
               </Avatar>
               <span className="hidden md:block">{userEmail || 'User'}</span>
-              <ChevronDown className="h-4 w-4" />
+              {/* <ChevronDown className="h-4 w-4" /> */}
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
