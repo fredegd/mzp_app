@@ -4,6 +4,8 @@ import { Geist } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import Navbar from "@/components/layout/navbar"
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
+import { cookies } from "next/headers"
 
 const geist = Geist({
   subsets: ["latin"],
@@ -28,11 +30,18 @@ export const metadata: Metadata = {
   }
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  // Create Supabase client for server component
+  const supabase = createServerComponentClient({ cookies })
+
+  // Check if user is logged in
+  const { data: { session } } = await supabase.auth.getSession()
+  const isLoggedIn = !!session
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={geist.className}>
@@ -42,7 +51,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
+          {isLoggedIn && <Navbar />}
           {children}
         </ThemeProvider>
       </body>
