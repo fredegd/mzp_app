@@ -50,10 +50,9 @@ export default function Navbar() {
 
       <nav className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-4">
         <div className="container mx-auto flex items-center justify-between px-4">
+          <Link href="/dashboard" className="text-xl font-bold text-foreground">
+            Mahlzeit          </Link>
           <div className="flex items-center space-x-8">
-            <Link href="/dashboard" className="text-xl font-bold text-foreground">
-              MealPlanner
-            </Link>
             <div className="hidden md:flex space-x-1">
               <Link href="/dashboard">
                 <Button
@@ -84,7 +83,7 @@ export default function Navbar() {
                   )}
                 >
                   <Calendar className="h-4 w-4 mr-2" />
-                  Meal Planner
+                  Calender
                 </Button>
               </Link>
               <Link href="/shopping-list">
@@ -103,45 +102,45 @@ export default function Navbar() {
           <div className="flex items-center space-x-2">
 
             {/* User dropdown menu */}
-            <div className="hidden md:block">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="flex items-center gap-1">
-                    <Avatar className="h-8 w-8 mr-1">
-                      <AvatarFallback>{getInitial()}</AvatarFallback>
-                    </Avatar>
-                    <span className="hidden lg:block">{userEmail || 'User'}</span>
-                    {/* <ChevronDown className="h-4 w-4" /> */}
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <Link href="/profile">
-                    <DropdownMenuItem className="cursor-pointer">
-                      <User className="h-4 w-4 mr-2" />
-                      Profile
-                    </DropdownMenuItem>
-                  </Link>
-                  <ThemeToggle />
-                  <form action={signOut}>
-                    <DropdownMenuItem className="cursor-pointer" asChild>
-                      <button className="w-full flex items-center">
-                        <LogOut className="h-4 w-4 mr-2" />
-                        Sign Out
-                      </button>
-                    </DropdownMenuItem>
-                  </form>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="flex items-center gap-1">
+                  <Avatar className="h-8 w-8 mr-1">
+                    <AvatarFallback>{getInitial()}</AvatarFallback>
+                  </Avatar>
+                  <span className="hidden lg:block">{userEmail || 'User'}</span>
+                  {/* <ChevronDown className="h-4 w-4" /> */}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <ThemeToggle />
+                <Link href="/profile">
+                  <DropdownMenuItem className="cursor-pointer">
+                    <User className="h-4 w-4 mr-2" />
+                    Profile
+                  </DropdownMenuItem>
+                </Link>
+
+                <form action={signOut}>
+                  <DropdownMenuItem className="cursor-pointer" asChild>
+                    <button className="w-full flex items-center">
+                      <LogOut className="h-4 w-4 mr-2" />
+                      Sign Out
+                    </button>
+                  </DropdownMenuItem>
+                </form>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
 
           </div>
         </div>
-
       </nav>
       {/* Mobile navigation */}
-      <div className=" md:hidden flex justify-around mt-4 px-4 pb-2 fixed bottom-0 left-0 right-0 bg-inherit p-2">
+      <div className=" md:hidden flex justify-around h-16 fixed bottom-0 left-0 right-0 bg-inherit px-2 py-4 mb-2">
         <Link href="/dashboard">
           <Button
             variant="ghost"
@@ -175,7 +174,7 @@ export default function Navbar() {
             )}
           >
             <Calendar className="h-4 w-4" />
-            {isActive("/meal-planner") && "Meal Planner"}
+            {isActive("/meal-planner") && "Calender"}
           </Button>
         </Link>
         <Link href="/shopping-list">
@@ -190,38 +189,7 @@ export default function Navbar() {
             {isActive("/shopping-list") && "Shopping List"}
           </Button>
         </Link>
-        {/* User dropdown menu */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="flex items-center gap-1">
-              <Avatar className="h-8 w-8 mr-1">
-                <AvatarFallback>{getInitial()}</AvatarFallback>
-              </Avatar>
-              <span className="hidden md:block">{userEmail || 'User'}</span>
-              {/* <ChevronDown className="h-4 w-4" /> */}
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <Link href="/profile">
-              <DropdownMenuItem className="cursor-pointer">
-                <User className="h-4 w-4 mr-2" />
-                Profile
-              </DropdownMenuItem>
-            </Link>
-            <ThemeToggle />
 
-            <form action={signOut}>
-              <DropdownMenuItem className="cursor-pointer" asChild>
-                <button className="w-full flex items-center">
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Sign Out
-                </button>
-              </DropdownMenuItem>
-            </form>
-          </DropdownMenuContent>
-        </DropdownMenu>
       </div>
 
     </>

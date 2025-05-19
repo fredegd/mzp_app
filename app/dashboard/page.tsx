@@ -2,7 +2,7 @@ import Link from "next/link"
 import { createClient } from "@/lib/supabase/server"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Clock, UtensilsCrossed, ShoppingCart, Calendar } from "lucide-react"
+import { Clock, UtensilsCrossed, ShoppingCart, Calendar, Plus } from "lucide-react"
 import { formatDate } from "@/lib/utils/date"
 import { supabase } from "@/lib/supabase/client"
 
@@ -44,58 +44,52 @@ export default async function DashboardPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                 {/* Recipes Card */}
-                <Card className="shadow-md">
-                    <CardHeader className="pb-2">
-                        <CardTitle className="text-xl flex items-center">
-                            <UtensilsCrossed className="h-5 w-5 mr-2 text-[#2b725e]" />
-                            Recipes
-                        </CardTitle>
-                        <CardDescription className="text-gray-400">
-                            {recipes?.length || 0} total recipes
-                        </CardDescription>
-                    </CardHeader>
-                    <CardFooter>
-                        <Link href="/recipes" className="w-full">
-                            <Button variant="outline" className="w-full">Manage Recipes</Button>
-                        </Link>
-                    </CardFooter>
-                </Card>
+
+                <Link href="/recipes" >
+                    <Card className="shadow-md h-full w-full">
+                        <CardHeader className="p-6">
+                            <CardTitle className="text-xl flex items-center">
+                                <UtensilsCrossed className="h-5 w-5 mr-2 text-[#2b725e]" />
+                                Recipes
+                            </CardTitle>
+                            <CardDescription className="text-gray-400">
+                                {recipes?.length || 0} total recipes
+                            </CardDescription>
+                        </CardHeader>
+                    </Card>
+                </Link>
 
                 {/* Meal Plans Card */}
-                <Card className="shadow-md">
-                    <CardHeader className="pb-2">
-                        <CardTitle className="text-xl flex items-center">
-                            <Calendar className="h-5 w-5 mr-2 text-[#2b725e]" />
-                            Meal Planner
-                        </CardTitle>
-                        <CardDescription className="text-gray-400">
-                            Plan your weekly meals
-                        </CardDescription>
-                    </CardHeader>
-                    <CardFooter>
-                        <Link href="/meal-planner" className="w-full">
-                            <Button variant="outline" className="w-full">View Meal Plan</Button>
-                        </Link>
-                    </CardFooter>
-                </Card>
+                <Link href="/meal-planner" >
+                    <Card className="shadow-md h-full w-full">
+                        <CardHeader className="p-6">
+                            <CardTitle className="text-xl flex items-center">
+                                <Calendar className="h-5 w-5 mr-2 text-[#2b725e]" />
+                                Calendar
+                            </CardTitle>
+                            <CardDescription className="text-gray-400">
+                                Plan your weekly meals
+                            </CardDescription>
+                        </CardHeader>
+
+                    </Card>
+                </Link>
 
                 {/* Shopping List Card */}
-                <Card className="shadow-md">
-                    <CardHeader className="pb-2">
-                        <CardTitle className="text-xl flex items-center">
-                            <ShoppingCart className="h-5 w-5 mr-2 text-[#2b725e]" />
-                            Shopping List
-                        </CardTitle>
-                        <CardDescription className="text-gray-400">
-                            {completedShoppingItems || 0}/{totalShoppingItems || 0} items completed
-                        </CardDescription>
-                    </CardHeader>
-                    <CardFooter>
-                        <Link href="/shopping-list" className="w-full">
-                            <Button variant="outline" className="w-full">View Shopping List</Button>
-                        </Link>
-                    </CardFooter>
-                </Card>
+                <Link href="/shopping-list" >
+                    <Card className="shadow-md h-full w-full">
+                        <CardHeader className="p-6">
+                            <CardTitle className="text-xl flex items-center">
+                                <ShoppingCart className="h-5 w-5 mr-2 text-[#2b725e]" />
+                                Shopping List
+                            </CardTitle>
+                            <CardDescription className="text-gray-400">
+                                {completedShoppingItems || 0}/{totalShoppingItems || 0} items completed
+                            </CardDescription>
+                        </CardHeader>
+
+                    </Card>
+                </Link>
 
                 {/* Profile Card */}
                 <Card className="shadow-md">
@@ -108,12 +102,16 @@ export default async function DashboardPage() {
                             Add new items quickly
                         </CardDescription>
                     </CardHeader>
-                    <CardFooter className="flex gap-2">
+                    <CardFooter className="flex gap-4">
                         <Link href="/recipes/new" className="flex-1">
-                            <Button variant="outline" className="w-full">New Recipe</Button>
+                            <Button variant="outline" className="w-full">
+                                <Plus className="h-4 w-4 mr-2" />
+                                Recipe</Button>
                         </Link>
                         <Link href="/meal-planner" className="flex-1">
-                            <Button variant="outline" className="w-full">Plan Meal</Button>
+                            <Button variant="outline" className="w-full">
+                                <Plus className="h-4 w-4 mr-2" />
+                                Meal Plan</Button>
                         </Link>
                     </CardFooter>
                 </Card>
@@ -178,7 +176,7 @@ export default async function DashboardPage() {
                                 </CardContent>
                                 <CardFooter>
                                     <Link href="/meal-planner" className="w-full">
-                                        <Button variant="outline" className="w-full">View in Meal Planner</Button>
+                                        <Button variant="outline" className="w-full">View Calender</Button>
                                     </Link>
                                 </CardFooter>
                             </Card>

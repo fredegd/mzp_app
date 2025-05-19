@@ -13,7 +13,7 @@ export default function ShoppingListPage() {
                 <Link href="/meal-planner">
                     <Button variant="outline" className="flex gap-2 items-center">
                         <Calendar className="h-4 w-4" />
-                        Go to Meal Planner
+                        Go to Calender
                     </Button>
                 </Link>
             </div>

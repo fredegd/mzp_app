@@ -13,7 +13,7 @@ const geist = Geist({
 })
 
 export const metadata: Metadata = {
-  title: "Meal Planner App",
+  title: "Mahlzeit",
   description: "Plan your meals, manage recipes, and create shopping lists",
   icons: {
     icon: [
