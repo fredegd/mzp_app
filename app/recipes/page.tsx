@@ -25,8 +25,7 @@ import {
     SelectGroup,
     SelectItem,
     SelectLabel,
-    SelectTrigger,
-    SelectValue
+    SelectTrigger
 } from "@/components/ui/select"
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination"
 

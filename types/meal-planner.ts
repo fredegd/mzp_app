@@ -9,6 +9,7 @@ export interface Recipe {
   cook_time: number | null;
   servings: number | null;
   image_url: string | null;
+  is_favourite: boolean;
   created_at: string;
   updated_at: string;
 }

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { CalendarPlus } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -18,18 +18,44 @@ import type { Recipe } from "@/types/meal-planner"
 import type { Ingredient } from "@/types/meal-planner"
 import { deleteRecipe } from "@/lib/meal-planner"
 import AddRecipeToMealPlanDialog from './add-recipe-to-meal-plan-dialog'
+import FavouriteButton from "./favourite-button"
 import { toast } from "sonner"
-import BackButton from "@/components/ui/back-button"
+import { useUserData } from "@/lib/context/user-data-context"
 
-interface RecipeDetailProps {
-  recipe: Recipe
+// Local Recipe interface definition for this component
+// IMPORTANT: This should ideally be sourced from a central types file (e.g., @/types/meal-planner.ts)
+// Ensure that your central Recipe type definition includes 'is_favourite: boolean'.
+interface LocalRecipe {
+  id: string;
+  name: string;
+  description?: string;
+  prep_time?: number;
+  cook_time?: number;
+  servings?: number;
+  image_url?: string;
+  // Assuming ingredients can sometimes be a string if not yet parsed, or an array of Ingredient objects
+  ingredients: Ingredient[] | string;
+  instructions?: string;
+  is_favourite: boolean; // This is the new field
 }
 
-export default function RecipeDetail({ recipe }: RecipeDetailProps) {
+interface RecipeDetailProps {
+  recipe: LocalRecipe // Uses the local Recipe interface defined above
+}
+
+export default function RecipeDetail({ recipe: initialRecipe }: RecipeDetailProps) {
   const router = useRouter()
+  const { refreshRecipes } = useUserData()
+  // State for the recipe details, initialized with the prop
+  const [recipe, setRecipe] = useState<LocalRecipe>(initialRecipe)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [addToPlanDialogOpen, setAddToPlanDialogOpen] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
+
+  // Effect to update the local recipe state if the initialRecipe prop changes
+  useEffect(() => {
+    setRecipe(initialRecipe)
+  }, [initialRecipe])
 
   const handleDelete = async () => {
     setIsDeleting(true)
@@ -37,6 +63,7 @@ export default function RecipeDetail({ recipe }: RecipeDetailProps) {
       await deleteRecipe(recipe.id)
       toast.success('Recipe deleted successfully!')
       router.push("/recipes")
+      if (refreshRecipes) await refreshRecipes() // refreshRecipes might be undefined if not provided by context
     } catch (error) {
       console.error("Error deleting recipe:", error)
       toast.error("Failed to delete recipe.")
@@ -50,27 +77,38 @@ export default function RecipeDetail({ recipe }: RecipeDetailProps) {
     toast.success(`'${recipe.name}' added to your meal plan!`)
   }
 
+  // Callback for when the favourite status is toggled by the FavouriteButton
+  const handleFavouriteToggle = (isFavourite: boolean) => {
+    setRecipe(prevRecipe => ({ ...prevRecipe, is_favourite: isFavourite }))
+    // You might want to call refreshRecipes() here if other components need to be updated immediately
+    // For example, if a list of all recipes elsewhere filters by favourites.
+    // if (refreshRecipes) refreshRecipes();
+  }
+
   return (
     <>
-
       <Card className="shadow-md">
         <CardHeader>
           <CardTitle className="text-2xl mb-2">{recipe.name}</CardTitle>
           <div className="flex items-center justify-between">
-
-
-            <Button variant="outline" onClick={() => setAddToPlanDialogOpen(true)}>
-              <CalendarPlus className="h-4 w-4 mr-2" />
-              <span className="hidden md:block">Add to Meal-Plan</span>
-            </Button>
+            <div className="flex gap-2 items-center">
+              <Button variant="outline" onClick={() => setAddToPlanDialogOpen(true)}>
+                <CalendarPlus className="h-4 w-4 mr-2" />
+                <span className="hidden md:block">Add to Meal-Plan</span>
+              </Button>
+              <FavouriteButton
+                recipeId={recipe.id}
+                isFavouriteInitial={recipe.is_favourite} // This should now correctly reference the is_favourite property
+                onToggle={handleFavouriteToggle}
+              />
+            </div>
             <div className="flex gap-2">
-              <Button variant="outline" onClick={() => router.push(`/recipes/${recipe.id}/edit`)} className="flex items-center justify-center w-full">
-                <Edit className="h-4 w-4" />
+              <Button variant="outline" onClick={() => router.push(`/recipes/${recipe.id}/edit`)} className="flex items-center justify-center">
+                <Edit className="h-4 w-4 mr-0 md:mr-2" />
                 <span className="hidden md:block">Edit</span>
               </Button>
-              <Button variant="destructive" onClick={() => setDeleteDialogOpen(true)} className="flex items-center justify-center w-full">
-                <Trash2 className="h-4 w-4" />
-
+              <Button variant="destructive" onClick={() => setDeleteDialogOpen(true)} className="flex items-center justify-center">
+                <Trash2 className="h-4 w-4 mr-0 md:mr-2" />
                 <span className="hidden md:block">Delete</span>
               </Button>
             </div>
@@ -86,8 +124,6 @@ export default function RecipeDetail({ recipe }: RecipeDetailProps) {
               />
             </div>
           )}
-
-
 
           <div className="flex flex-wrap gap-4 text-sm text-gray-400">
             {(recipe.prep_time || recipe.cook_time) && (

@@ -570,3 +570,76 @@ export async function generateShoppingList(startDate: string, endDate: string) {
     return { error: error.message || "An unexpected error occurred" };
   }
 }
+
+export async function toggleRecipeFavourite(
+  recipeId: string,
+  isFavourite: boolean
+): Promise<{ success?: true; error?: string }> {
+  try {
+    const supabase = createClient();
+    const userId = await getUserId();
+    if (!userId)
+      throw new Error(
+        "User not authenticated. Cannot update favourite status."
+      );
+
+    console.log(
+      `User ${userId} attempting to set recipe ${recipeId} favourite status to ${isFavourite}`
+    );
+
+    const { data, error } = await supabase
+      .from("recipes")
+      .update({
+        is_favourite: isFavourite,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", recipeId)
+      .eq("user_id", userId) // Crucial: Ensure user owns the recipe
+      .select("id, is_favourite") // Select to confirm the update and new status
+      .single(); // Expect a single row to be updated
+
+    if (error) {
+      console.error(
+        `Supabase error updating favourite status for recipe ${recipeId}:`,
+        error
+      );
+      // More specific error messages based on Supabase error codes could be added here
+      throw new Error(`Database error: ${error.message}`);
+    }
+
+    if (!data) {
+      // This could mean the recipe doesn't exist or the user isn't authorized
+      console.warn(
+        `Recipe not found or user ${userId} not authorized to update favourite status for recipe ${recipeId}.`
+      );
+      return {
+        error:
+          "Recipe not found or you are not authorized to update this recipe.",
+      };
+    }
+
+    console.log(
+      `Recipe ${recipeId} favourite status successfully updated to ${data.is_favourite} in DB.`
+    );
+
+    // Revalidate paths to ensure UI updates
+    revalidatePath("/recipes"); // For general recipe listings
+    revalidatePath(`/recipes/${recipeId}`); // For the specific recipe's detail page
+    // If you have a dedicated "Favourites" page, revalidate that too:
+    // revalidatePath("/recipes/favourites");
+
+    return { success: true };
+  } catch (error: any) {
+    console.error(
+      `General error in toggleRecipeFavourite for recipe ${recipeId}:`,
+      error
+    );
+    // Ensure a string is returned for the error property
+    return {
+      error:
+        typeof error.message === "string"
+          ? error.message
+          : "An unknown error occurred while updating favourite status.",
+    };
+  }
+}
