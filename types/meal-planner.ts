@@ -10,6 +10,7 @@ export interface Recipe {
   servings: number | null;
   image_url: string | null;
   is_favourite: boolean;
+  categories: string[] | null;
   created_at: string;
   updated_at: string;
 }

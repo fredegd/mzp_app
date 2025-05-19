@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Loader2, Plus, Trash2, Check, ChevronsUpDown } from "lucide-react"
+import { Loader2, Plus, Trash2, Check, ChevronsUpDown, X } from "lucide-react"
 import type { Recipe, Ingredient } from "@/types/meal-planner"
 import { createRecipe, updateRecipe } from "@/lib/meal-planner"
 import { cn } from "@/lib/utils"
@@ -83,6 +83,8 @@ export default function RecipeForm({ initialRecipe, isEditing = false }: RecipeF
   const [cookTime, setCookTime] = useState(initialRecipe?.cook_time?.toString() || "")
   const [servings, setServings] = useState(initialRecipe?.servings?.toString() || "")
   const [imageUrl, setImageUrl] = useState(initialRecipe?.image_url || "")
+  const [categories, setCategories] = useState<string[]>(initialRecipe?.categories || [])
+  const [currentCategory, setCurrentCategory] = useState("")
   const [openUnitPopover, setOpenUnitPopover] = useState<number | null>(null)
 
   const addIngredient = () => {
@@ -100,6 +102,17 @@ export default function RecipeForm({ initialRecipe, isEditing = false }: RecipeF
       [field]: field === "quantity" ? Number.parseFloat(value as string) || 0 : value,
     }
     setIngredients(updatedIngredients)
+  }
+
+  const handleAddCategory = () => {
+    if (currentCategory.trim() !== "" && categories.length < 5 && !categories.includes(currentCategory.trim())) {
+      setCategories([...categories, currentCategory.trim()])
+      setCurrentCategory("")
+    }
+  }
+
+  const handleRemoveCategory = (tagToRemove: string) => {
+    setCategories(categories.filter(tag => tag !== tagToRemove))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -135,6 +148,7 @@ export default function RecipeForm({ initialRecipe, isEditing = false }: RecipeF
       cook_time: cookTime ? Number.parseInt(cookTime) : null,
       servings: servings ? Number.parseInt(servings) : null,
       image_url: imageUrl || null,
+      categories: categories.length > 0 ? categories : null,
     }
 
     try {
@@ -343,6 +357,55 @@ export default function RecipeForm({ initialRecipe, isEditing = false }: RecipeF
               placeholder="https://example.com/image.jpg"
             />
           </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="categories">Categories (max 5)</Label>
+            <div className="flex gap-2">
+              <Input
+                id="categories"
+                value={currentCategory}
+                onChange={(e) => setCurrentCategory(e.target.value)}
+                className="border-gray-700"
+                placeholder="e.g., Italian, Quick, Dessert"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    handleAddCategory();
+                  }
+                }}
+              />
+              <Button
+                type="button"
+                onClick={handleAddCategory}
+                disabled={currentCategory.trim() === "" || categories.length >= 5 || categories.includes(currentCategory.trim())}
+                className="bg-[#2b725e] hover:bg-[#235e4c]"
+              >
+                Add Tag
+              </Button>
+            </div>
+            {categories.length > 0 && (
+              <div className="mt-2 flex flex-wrap gap-2">
+                {categories.map(tag => (
+                  <div key={tag} className="flex items-center gap-1 bg-gray-700 text-gray-200 px-2 py-1 rounded-md text-sm">
+                    {tag}
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => handleRemoveCategory(tag)}
+                      className="h-5 w-5 p-0.5 hover:bg-gray-600"
+                    >
+                      <X className="h-3 w-3" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            )}
+            {categories.length >= 5 && (
+              <p className="text-xs text-red-500 mt-1">Maximum of 5 categories reached.</p>
+            )}
+          </div>
+
         </CardContent>
         <CardFooter className="flex justify-between">
           <Button type="button" variant="outline" onClick={() => router.back()}>

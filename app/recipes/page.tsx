@@ -28,6 +28,7 @@ import {
     SelectTrigger
 } from "@/components/ui/select"
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination"
+import { Toggle } from "@/components/ui/toggle"
 
 // Safari grid fix styles
 const safariFix = `
@@ -73,6 +74,8 @@ export default function RecipesPage() {
     const [sortBy, setSortBy] = useState<SortOption>("name")
     const [sortOrder, setSortOrder] = useState<SortOrder>("asc")
     const [showScrollTop, setShowScrollTop] = useState(false)
+    const [allCategories, setAllCategories] = useState<string[]>([])
+    const [selectedCategory, setSelectedCategory] = useState<string | "ALL_CATEGORIES" | "NO_CATEGORIES" | "FAVOURITES" | null>("NO_CATEGORIES")
     const containerRef = useRef<HTMLDivElement>(null)
 
     // Handle scroll events to show/hide scroll-to-top button
@@ -125,24 +128,72 @@ export default function RecipesPage() {
     }
 
     useEffect(() => {
-        if (searchQuery.trim() === "") {
-            setFilteredRecipes(recipes)
-        } else {
+        if (recipes.length > 0) {
+            const categories = new Set<string>()
+            recipes.forEach(recipe => {
+                if (recipe.categories) {
+                    recipe.categories.forEach(cat => categories.add(cat))
+                }
+            })
+            setAllCategories(Array.from(categories).sort())
+        }
+    }, [recipes])
+
+    useEffect(() => {
+        let newFilteredRecipes = [...recipes]
+
+        // Filter by search query
+        if (searchQuery.trim() !== "") {
             const query = searchQuery.toLowerCase()
-            const filtered = recipes.filter(
+            newFilteredRecipes = newFilteredRecipes.filter(
                 recipe =>
                     recipe.name.toLowerCase().includes(query) ||
                     (recipe.description && recipe.description.toLowerCase().includes(query))
             )
-            setFilteredRecipes(filtered)
         }
-    }, [searchQuery, recipes])
+
+        // Filter by selected category or special filter
+        if (selectedCategory) {
+            if (selectedCategory === "NO_CATEGORIES") {
+                newFilteredRecipes = newFilteredRecipes.filter(
+                    recipe => !recipe.categories || recipe.categories.length === 0
+                )
+            } else if (selectedCategory === "ALL_CATEGORIES") {
+                newFilteredRecipes = newFilteredRecipes.filter(
+                    recipe => recipe.categories && recipe.categories.length > 0
+                )
+            } else if (selectedCategory === "FAVOURITES") {
+                newFilteredRecipes = newFilteredRecipes.filter(
+                    recipe => recipe.is_favourite
+                )
+            } else { // Specific category string
+                newFilteredRecipes = newFilteredRecipes.filter(
+                    recipe => recipe.categories && recipe.categories.includes(selectedCategory)
+                )
+            }
+        }
+
+        setFilteredRecipes(newFilteredRecipes)
+        // Reset to page 1 when search or category changes, but not when recipes themselves change (e.g. from pagination)
+        // This check needs to be more robust if we expect recipes to change for other reasons while filters are active.
+    }, [searchQuery, recipes, selectedCategory])
 
     const handleSortChange = (value: string) => {
         const [newSortBy, newSortOrder] = value.split("-") as [SortOption, SortOrder]
         setSortBy(newSortBy)
         setSortOrder(newSortOrder)
         setCurrentPage(1) // Reset to first page on sort change
+    }
+
+    const handleCategorySelect = (category: string | "ALL_CATEGORIES" | "NO_CATEGORIES" | "FAVOURITES" | null) => {
+        setSelectedCategory(prev => {
+            // If clicking the same category/filter again, clear it (or default to NO_CATEGORIES if clearing means null)
+            if (prev === category) {
+                return category === "NO_CATEGORIES" ? "NO_CATEGORIES" : null // Keep "NO_CATEGORIES" if re-clicked, otherwise clear
+            }
+            return category
+        })
+        setCurrentPage(1) // Reset to first page on category change
     }
 
     const renderPagination = () => {
@@ -323,6 +374,59 @@ export default function RecipesPage() {
                         <List className="h-4 w-4" />
                     </Button>
                 </div>
+            </div>
+
+            {/* Category and Special Filters */}
+            <div className="mb-6 flex flex-wrap gap-2 items-center">
+                {/* Special Filters */}
+                <Toggle
+                    pressed={selectedCategory === "NO_CATEGORIES"}
+                    onPressedChange={() => handleCategorySelect("NO_CATEGORIES")}
+                    variant="outline"
+                    className={`data-[state=on]:bg-[#2b725e] data-[state=on]:text-white ${selectedCategory === "NO_CATEGORIES" ? 'border-[#2b725e]' : 'border-gray-700'}`}
+                >
+                    No Tags
+                </Toggle>
+                <Toggle
+                    pressed={selectedCategory === "ALL_CATEGORIES"}
+                    onPressedChange={() => handleCategorySelect("ALL_CATEGORIES")}
+                    variant="outline"
+                    className={`data-[state=on]:bg-[#2b725e] data-[state=on]:text-white ${selectedCategory === "ALL_CATEGORIES" ? 'border-[#2b725e]' : 'border-gray-700'}`}
+                >
+                    Has Tags
+                </Toggle>
+                <Toggle
+                    pressed={selectedCategory === "FAVOURITES"}
+                    onPressedChange={() => handleCategorySelect("FAVOURITES")}
+                    variant="outline"
+                    className={`data-[state=on]:bg-[#2b725e] data-[state=on]:text-white ${selectedCategory === "FAVOURITES" ? 'border-[#2b725e]' : 'border-gray-700'}`}
+                >
+                    ❤️ Favourites
+                </Toggle>
+
+                {/* Separator or some visual distinction if needed */}
+                {allCategories.length > 0 && (selectedCategory !== "NO_CATEGORIES" && selectedCategory !== "ALL_CATEGORIES" && selectedCategory !== "FAVOURITES" || selectedCategory === null || allCategories.includes(selectedCategory)) && (
+                    <div className="mx-2 h-6 w-px bg-gray-600 self-center"></div>
+                )}
+
+                {/* Individual Category Filters */}
+                {allCategories.map(category => (
+                    <Toggle
+                        key={category}
+                        pressed={selectedCategory === category}
+                        onPressedChange={() => handleCategorySelect(category)}
+                        variant="outline"
+                        className={`data-[state=on]:bg-[#2b725e] data-[state=on]:text-white ${selectedCategory === category ? 'border-[#2b725e]' : 'border-gray-700'}`}
+                    >
+                        {category}
+                    </Toggle>
+                ))}
+                {/* Clear filter button - only show if a specific category or 'ALL_CATEGORIES' or 'FAVOURITES' is selected */}
+                {(selectedCategory && selectedCategory !== "NO_CATEGORIES") && (
+                    <Button variant="ghost" onClick={() => handleCategorySelect("NO_CATEGORIES")} className="text-sm text-gray-400 hover:text-gray-300">
+                        Show All Recipes
+                    </Button>
+                )}
             </div>
 
             {loading ? (

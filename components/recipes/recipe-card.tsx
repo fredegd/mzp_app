@@ -4,23 +4,24 @@ import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Clock, Users } from "lucide-react"
 import FavouriteButton from "./favourite-button"
+import type { Recipe } from "@/types/meal-planner"; // Import global Recipe type
 
-// Temporary Recipe type extension - move to your actual types file
-interface Recipe {
-  id: string;
-  name: string;
-  description?: string;
-  prep_time?: number;
-  cook_time?: number;
-  servings?: number;
-  image_url?: string;
-  // ingredients: any[]; // Or your specific Ingredient type
-  // instructions?: string;
-  is_favourite: boolean; // Added new property
-}
+// REMOVE LOCAL RECIPE DEFINITION
+// interface Recipe {
+//   id: string;
+//   name: string;
+//   description?: string;
+//   prep_time?: number;
+//   cook_time?: number;
+//   servings?: number;
+//   image_url?: string;
+//   // ingredients: any[]; // Or your specific Ingredient type
+//   // instructions?: string;
+//   is_favourite: boolean; // Added new property
+// }
 
 interface RecipeCardProps {
-  recipe: Recipe,
+  recipe: Recipe, // Now uses the imported global Recipe type
   viewMode?: "grid" | "list"
 }
 
