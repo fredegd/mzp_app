@@ -48,11 +48,11 @@ export default function Navbar() {
   return (
     <>
 
-      <nav className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-4">
-        <div className="container mx-auto flex items-center justify-between px-4">
+      <nav className="border-b border-border py-4 h-16">
+        <div className="flex justify-between h-16 fixed top-0 left-0 right-0  px-6 py-4 bg-background">
           <Link href="/dashboard" className="text-xl font-bold text-foreground">
             Mahlzeit          </Link>
-          <div className="flex items-center space-x-8">
+          <div className="md:flex items-center space-x-8 hidden  justify-around h-16 fixed top-0 left-0 right-0 z-50 bg-inherit px-2 py-4">
             <div className="hidden md:flex space-x-1">
               <Link href="/dashboard">
                 <Button
@@ -102,7 +102,6 @@ export default function Navbar() {
           <div className="flex items-center space-x-2">
 
             {/* User dropdown menu */}
-
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="flex items-center gap-1">
@@ -138,59 +137,59 @@ export default function Navbar() {
 
           </div>
         </div>
-      </nav>
-      {/* Mobile navigation */}
-      <div className=" md:hidden flex justify-around h-16 fixed bottom-0 left-0 right-0 bg-inherit px-2 py-4">
-        <Link href="/dashboard">
-          <Button
-            variant="ghost"
-            size="sm"
-            className={cn(
-              isActive("/dashboard") && "bg-primary text-primary-foreground"
-            )}
-          >
-            <Home className="h-4 w-4" />
-            {isActive("/dashboard") && "Dashboard"}
-          </Button>
-        </Link>
-        <Link href="/recipes">
-          <Button
-            variant="ghost"
-            size="sm"
-            className={cn(
-              isActive("/recipes") && "bg-primary text-primary-foreground"
-            )}
-          >
-            <ChefHat className="h-4 w-4" />
-            {isActive("/recipes") && "Recipes"}
-          </Button>
-        </Link>
-        <Link href="/meal-planner">
-          <Button
-            variant="ghost"
-            size="sm"
-            className={cn(
-              isActive("/meal-planner") && "bg-primary text-primary-foreground"
-            )}
-          >
-            <Calendar className="h-4 w-4" />
-            {isActive("/meal-planner") && "Calender"}
-          </Button>
-        </Link>
-        <Link href="/shopping-list">
-          <Button
-            variant="ghost"
-            size="sm"
-            className={cn(
-              isActive("/shopping-list") && "bg-primary text-primary-foreground"
-            )}
-          >
-            <ShoppingCart className="h-4 w-4" />
-            {isActive("/shopping-list") && "Shopping List"}
-          </Button>
-        </Link>
+        {/* Mobile navigation */}
+        <div className=" md:hidden flex justify-around h-16 fixed bottom-0 left-0 right-0  px-2 py-4 z-50 bg-background">
+          <Link href="/dashboard">
+            <Button
+              variant="ghost"
+              size="sm"
+              className={cn(
+                isActive("/dashboard") && "bg-primary text-primary-foreground"
+              )}
+            >
+              <Home className="h-4 w-4" />
+              {isActive("/dashboard") && "Dashboard"}
+            </Button>
+          </Link>
+          <Link href="/recipes">
+            <Button
+              variant="ghost"
+              size="sm"
+              className={cn(
+                isActive("/recipes") && "bg-primary text-primary-foreground"
+              )}
+            >
+              <ChefHat className="h-4 w-4" />
+              {isActive("/recipes") && "Recipes"}
+            </Button>
+          </Link>
+          <Link href="/meal-planner">
+            <Button
+              variant="ghost"
+              size="sm"
+              className={cn(
+                isActive("/meal-planner") && "bg-primary text-primary-foreground"
+              )}
+            >
+              <Calendar className="h-4 w-4" />
+              {isActive("/meal-planner") && "Calender"}
+            </Button>
+          </Link>
+          <Link href="/shopping-list">
+            <Button
+              variant="ghost"
+              size="sm"
+              className={cn(
+                isActive("/shopping-list") && "bg-primary text-primary-foreground"
+              )}
+            >
+              <ShoppingCart className="h-4 w-4" />
+              {isActive("/shopping-list") && "Shopping List"}
+            </Button>
+          </Link>
 
-      </div>
+        </div>
+      </nav>
 
     </>
   )

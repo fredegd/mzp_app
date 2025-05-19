@@ -241,14 +241,14 @@ export default function RecipesPage() {
                 </Link>
             </div>
 
-            <div className="mb-6 flex flex-col sm:flex-row gap-4">
+            <div className="mb-6 flex flex-col sm:flex-row gap-4  z-0">
                 <div className="relative flex-1">
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
                     <Input
                         placeholder="Search recipes..."
                         value={searchQuery}
                         onChange={e => setSearchQuery(e.target.value)}
-                        className="pl-10 border-gray-700"
+                        className="pl-10 border-gray-700 z-0"
                     />
                 </div>
                 <Select value={`${sortBy}-${sortOrder}`} onValueChange={handleSortChange}>
@@ -374,7 +374,7 @@ export default function RecipesPage() {
 
             {showScrollTop && (
                 <Button
-                    className="fixed bottom-6 right-6 bg-[#2b725e] hover:bg-[#235e4c] rounded-full shadow-lg p-3 z-50"
+                    className="fixed bottom-6 right-6 bg-[#2b725e] hover:bg-[#235e4c] rounded-full shadow-lg p-3 z-40"
                     size="icon"
                     onClick={scrollToTop}
                 >

@@ -136,7 +136,7 @@ export default function AddRecipeToMealPlanDialog({
                             {calendarOpen && (
                                 <div
                                     ref={calendarRef}
-                                    className="absolute left-0 top-[calc(100%+4px)] z-50 rounded-md border bg-popover p-3 shadow-md"
+                                    className="absolute left-0 top-[calc(100%+4px)] z-40 rounded-md border bg-popover p-3 shadow-md"
                                 >
                                     <Calendar
                                         mode="single"
