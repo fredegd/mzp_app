@@ -8,12 +8,13 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Check, ChevronsUpDown, Search, Loader2 } from "lucide-react"
 import { formatDate } from "@/lib/utils/date"
-import { getRecipes, createMealPlan } from "@/lib/meal-planner"
+import { createMealPlan } from "@/lib/meal-planner"
 import type { Recipe } from "@/types/meal-planner"
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
+import { useUserData } from "@/lib/context/user-data-context"
 
 interface AddMealPlanDialogProps {
   open: boolean
@@ -23,8 +24,7 @@ interface AddMealPlanDialogProps {
 }
 
 export default function AddMealPlanDialog({ open, onOpenChange, date, onMealAdded }: AddMealPlanDialogProps) {
-  const [recipes, setRecipes] = useState<Recipe[]>([])
-  const [loading, setLoading] = useState(false)
+  const { recipes, loading: recipesLoading } = useUserData()
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [openRecipeSelector, setOpenRecipeSelector] = useState(false)
@@ -33,32 +33,6 @@ export default function AddMealPlanDialog({ open, onOpenChange, date, onMealAdde
   const [mealType, setMealType] = useState<string>("dinner")
   const [recipeId, setRecipeId] = useState<string>("")
   const [notes, setNotes] = useState("")
-
-  useEffect(() => {
-    const fetchRecipes = async () => {
-      setLoading(true)
-      try {
-        // Explizit eine hohe Anzahl von Rezepten anfordern, um alle zu bekommen
-        const { recipes: data, error } = await getRecipes({
-          pageSize: 1000 // Eine hohe Anzahl, um alle Rezepte auf einmal zu holen
-        })
-
-        if (error) {
-          console.error("Error fetching recipes:", error)
-        } else if (data) {
-          setRecipes(data)
-        }
-      } catch (error) {
-        console.error("Error fetching recipes:", error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    if (open) {
-      fetchRecipes()
-    }
-  }, [open])
 
   const handleSubmit = async () => {
     setSubmitting(true)
@@ -131,7 +105,7 @@ export default function AddMealPlanDialog({ open, onOpenChange, date, onMealAdde
 
           <div className="space-y-2">
             <Label htmlFor="recipe">Recipe (optional)</Label>
-            {loading ? (
+            {recipesLoading ? (
               <div className="flex items-center justify-center p-2 h-10 border border-gray-700 rounded-md">
                 <Loader2 className="h-4 w-4 animate-spin mr-2" />
                 Loading recipes...

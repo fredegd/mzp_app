@@ -8,8 +8,9 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Loader2 } from "lucide-react"
 import { Combobox } from "@/components/ui/combobox"
-import { getRecipes, updateMealPlan } from "@/lib/meal-planner"
+import { updateMealPlan } from "@/lib/meal-planner"
 import type { Recipe, MealPlan } from "@/types/meal-planner"
+import { useUserData } from "@/lib/context/user-data-context"
 
 interface EditMealPlanDialogProps {
   open: boolean
@@ -19,8 +20,7 @@ interface EditMealPlanDialogProps {
 }
 
 export default function EditMealPlanDialog({ open, onOpenChange, mealPlan, onMealUpdated }: EditMealPlanDialogProps) {
-  const [recipes, setRecipes] = useState<Recipe[]>([])
-  const [loading, setLoading] = useState(false)
+  const { recipes, loading: recipesLoading } = useUserData()
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -34,29 +34,6 @@ export default function EditMealPlanDialog({ open, onOpenChange, mealPlan, onMea
     setRecipeId(mealPlan.recipe_id || "")
     setNotes(mealPlan.notes || "")
   }, [mealPlan])
-
-  useEffect(() => {
-    const fetchRecipes = async () => {
-      setLoading(true)
-      try {
-        const { recipes: data, error } = await getRecipes()
-
-        if (error) {
-          console.error("Error fetching recipes:", error)
-        } else if (data) {
-          setRecipes(data)
-        }
-      } catch (error) {
-        console.error("Error fetching recipes:", error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    if (open) {
-      fetchRecipes()
-    }
-  }, [open])
 
   const handleSubmit = async () => {
     setSubmitting(true)
@@ -82,7 +59,7 @@ export default function EditMealPlanDialog({ open, onOpenChange, mealPlan, onMea
     }
   }
 
-  const sortedRecipes = recipes.sort((a, b) => a.name.localeCompare(b.name))
+  const sortedRecipes = [...recipes].sort((a, b) => a.name.localeCompare(b.name))
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -111,7 +88,7 @@ export default function EditMealPlanDialog({ open, onOpenChange, mealPlan, onMea
 
           <div className="space-y-2">
             <Label htmlFor="recipe">Recipe (optional)</Label>
-            {loading ? (
+            {recipesLoading ? (
               <div className="flex items-center justify-center p-2 h-10 border border-gray-700 rounded-md">
                 <Loader2 className="h-4 w-4 animate-spin mr-2" />
                 Loading recipes...

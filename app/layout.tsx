@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import Navbar from "@/components/layout/navbar"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { cookies } from "next/headers"
+import { UserDataProvider } from "@/lib/context/user-data-context"
 
 const geist = Geist({
   subsets: ["latin"],
@@ -51,8 +52,14 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {isLoggedIn && <Navbar />}
-          {children}
+          {isLoggedIn ? (
+            <UserDataProvider>
+              <Navbar />
+              {children}
+            </UserDataProvider>
+          ) : (
+            children
+          )}
         </ThemeProvider>
       </body>
     </html>

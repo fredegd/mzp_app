@@ -103,37 +103,38 @@ export default function Navbar() {
           <div className="flex items-center space-x-2">
 
             {/* User dropdown menu */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="flex items-center gap-1">
-                  <Avatar className="h-8 w-8 mr-1">
-                    <AvatarFallback>{getInitial()}</AvatarFallback>
-                  </Avatar>
-                  <span className="hidden md:block">{userEmail || 'User'}</span>
-                  <ChevronDown className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <Link href="/profile">
-                  <DropdownMenuItem className="cursor-pointer">
-                    <User className="h-4 w-4 mr-2" />
-                    Profile
-                  </DropdownMenuItem>
-                </Link>
-                <ThemeToggle />
-
-                <form action={signOut}>
-                  <DropdownMenuItem className="cursor-pointer" asChild>
-                    <button className="w-full flex items-center">
-                      <LogOut className="h-4 w-4 mr-2" />
-                      Sign Out
-                    </button>
-                  </DropdownMenuItem>
-                </form>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <div className="hidden md:block">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="flex items-center gap-1">
+                    <Avatar className="h-8 w-8 mr-1">
+                      <AvatarFallback>{getInitial()}</AvatarFallback>
+                    </Avatar>
+                    <span className="hidden lg:block">{userEmail || 'User'}</span>
+                    <ChevronDown className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <Link href="/profile">
+                    <DropdownMenuItem className="cursor-pointer">
+                      <User className="h-4 w-4 mr-2" />
+                      Profile
+                    </DropdownMenuItem>
+                  </Link>
+                  <ThemeToggle />
+                  <form action={signOut}>
+                    <DropdownMenuItem className="cursor-pointer" asChild>
+                      <button className="w-full flex items-center">
+                        <LogOut className="h-4 w-4 mr-2" />
+                        Sign Out
+                      </button>
+                    </DropdownMenuItem>
+                  </form>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
 
           </div>
         </div>

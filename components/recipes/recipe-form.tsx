@@ -13,6 +13,7 @@ import { Loader2, Plus, Trash2, Check, ChevronsUpDown } from "lucide-react"
 import type { Recipe, Ingredient } from "@/types/meal-planner"
 import { createRecipe, updateRecipe } from "@/lib/meal-planner"
 import { cn } from "@/lib/utils"
+import { useUserData } from "@/lib/context/user-data-context"
 import {
   Command,
   CommandEmpty,
@@ -66,13 +67,16 @@ interface RecipeFormProps {
 
 export default function RecipeForm({ initialRecipe, isEditing = false }: RecipeFormProps) {
   const router = useRouter()
+  const { refreshRecipes } = useUserData()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   const [name, setName] = useState(initialRecipe?.name || "")
   const [description, setDescription] = useState(initialRecipe?.description || "")
   const [ingredients, setIngredients] = useState<Ingredient[]>(
-    initialRecipe?.ingredients || [{ name: "", quantity: 1, unit: "" }],
+    initialRecipe?.ingredients && Array.isArray(initialRecipe.ingredients)
+      ? initialRecipe.ingredients
+      : [{ name: "", quantity: 1, unit: "" }]
   )
   const [instructions, setInstructions] = useState(initialRecipe?.instructions || "")
   const [prepTime, setPrepTime] = useState(initialRecipe?.prep_time?.toString() || "")
@@ -137,10 +141,12 @@ export default function RecipeForm({ initialRecipe, isEditing = false }: RecipeF
       if (isEditing && initialRecipe) {
         const { error: updateError } = await updateRecipe(initialRecipe.id, recipeData)
         if (updateError) throw new Error(updateError)
+        await refreshRecipes()
         router.push(`/recipes/${initialRecipe.id}`)
       } else {
         const { error: createError } = await createRecipe(recipeData as any)
         if (createError) throw new Error(createError)
+        await refreshRecipes()
         router.push("/recipes")
       }
     } catch (err: any) {
